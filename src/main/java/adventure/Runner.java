@@ -1,7 +1,6 @@
 package adventure;
 
 import java.util.Scanner;
-
 import components.*;
 
 public class Runner {

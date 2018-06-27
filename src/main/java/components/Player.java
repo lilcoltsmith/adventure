@@ -1,5 +1,7 @@
 package components;
 
+import java.util.ArrayList;
+
 import items.*;
 
 public class Player {
@@ -7,8 +9,7 @@ public class Player {
 	private int totalHealth;
 	private int health;
 	private Inventory inventory;
-	private int x;
-	private int y;
+	private Location location;
 	
 	public Player(String name) {
 		this.name = name;
@@ -16,6 +17,7 @@ public class Player {
 		this.health = 50;
 		this.inventory = new Inventory();
 		this.inventory.addItem(new Sword("rusty sword", 5));
+		this.location = new Location("Awakening", "Before you is a monolithic shrine to Zork...", new ArrayList<String>());
 	}
 
 	public String getName() {
@@ -50,26 +52,14 @@ public class Player {
 		this.inventory = inventory;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
+	public Location getLocation() {
+		return location;
 	}
 
 	@Override
 	public String toString() {
-		return "Player [name=" + name + ", totalHealth=" + totalHealth + ", health=" + health + ", inventory="
-				+ inventory + ", x=" + x + ", y=" + y + "]";
+		return "Player [name=" + name + ", totalHealth=" + totalHealth + ", health=" + health + ",\n inventory="
+				+ inventory + ",\n location=" + location + "]";
 	}
 	
 }

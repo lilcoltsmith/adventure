@@ -1,10 +1,14 @@
 package items;
 
+import java.util.List;
+
 import components.Item;
 
 public class Sword extends Item{
 	private String name;
+	private List<String> actions;
 	private int damage;
+	private String info;
 	
 	public Sword() {};
 	
@@ -28,8 +32,23 @@ public class Sword extends Item{
 		this.damage = damage;
 	}
 
-	@Override
+	public List<String> getActions() {
+		return actions;
+	}
+
+	public void setActions(List<String> actions) {
+		this.actions = actions;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
 	public String toString() {
-		return "Sword [name=" + name + ", damage=" + damage + "]";
+		return "\n\t[name=" + name + ", damage=" + damage + "]";
 	};
 }

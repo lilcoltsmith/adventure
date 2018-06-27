@@ -24,7 +24,7 @@ public class Inventory {
 
 	@Override
 	public String toString() {
-		return "Inventory [inventory=" + inventory + "]";
+		return "[" + inventory + "]";
 	};
 	
 }

@@ -2,40 +2,23 @@ package components;
 
 import java.util.List;
 
-public class Item {
+public abstract class Item {
+	@SuppressWarnings("unused")
 	private String name;
+	@SuppressWarnings("unused")
 	private List<String> actions;
+	@SuppressWarnings("unused")
 	private String info;
 	
-	public Item() {}
+	public abstract String getName();
 
-	public String getName() {
-		return name;
-	}
+	public abstract void setName(String name);
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public abstract List<String> getActions();
 
-	public List<String> getActions() {
-		return actions;
-	}
+	public abstract void setActions(List<String> actions);
 
-	public void setActions(List<String> actions) {
-		this.actions = actions;
-	}
+	public abstract String getInfo();
 
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
-	}
-
-	@Override
-	public String toString() {
-		return "Item [name=" + name + ", actions=" + actions + ", info=" + info + "]";
-	}
-	
+	public abstract void setInfo(String info);
 }
