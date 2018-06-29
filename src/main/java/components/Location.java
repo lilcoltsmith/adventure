@@ -1,23 +1,34 @@
 package components;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
-	private String name;
-	private String description;
-	private List<String> actions;
-	private List<Exit> exits;
+public abstract class Location {
+	public String name;
+	public String description;
+	public List<ActionListener> actions;
+	public List<Exit> exits;
 	
 	public Location(String name) {
 		this.name = name;
 		this.description = new String();
-		this.actions = new ArrayList<String>();
+		this.actions = new ArrayList<ActionListener>();
 		this.exits = new ArrayList<Exit>();
 	}
 	
-	public Location(String name, String description, List<String> actions) {
-		this.name = name; this.description = description;
+	public Location(String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.actions = new ArrayList<ActionListener>();
+		this.exits = new ArrayList<Exit>();
+	}
+	
+	public Location(String name, String description, List<ActionListener> actions) {
+		this.name = name;
+		this.description = description;
+		this.actions = actions;
+		this.exits = new ArrayList<Exit>();
 	}
 
 	public String getName() {
@@ -36,11 +47,11 @@ public class Location {
 		this.description = description;
 	}
 
-	public List<String> getActions() {
+	public List<ActionListener> getActions() {
 		return actions;
 	}
 
-	public void setActions(List<String> actions) {
+	public void setActions(List<ActionListener> actions) {
 		this.actions = actions;
 	}
 

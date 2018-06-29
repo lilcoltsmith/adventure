@@ -97,7 +97,7 @@ public class Game {
 	public void createChoices() {
 		choicePanel = createPanel(100, 350, 600, 150, Color.black);
 		choicePanel.setLayout(new GridLayout(4,1));
-		choice0 = createButton("choice0", null);
+		choice0 = createButton("Test", player.getLocation().getActions().get(0));
 		choice1 = createButton("choice1", null);
 		choice2 = createButton("choice2", null);
 		choice3 = createButton("choice3", null);
