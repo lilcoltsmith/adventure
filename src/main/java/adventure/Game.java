@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,7 +21,7 @@ public class Game {
 	public Player player;
 	
 	public JFrame window;
-	Container container;
+	public Container container;
 	public int windowX, windowY;
 	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
@@ -79,7 +78,7 @@ public class Game {
 		container.add(titleNamePanel);
 		container.add(startButtonPanel);
 		window.setVisible(true);
-		window.validate();
+		//window.validate();
 	}
 	
 	public void createGameScreen() {
@@ -114,7 +113,7 @@ public class Game {
 		mainTextPanel.setBounds(100, 100, 600, 250);
 		mainTextPanel.setBackground(Color.black);
 		
-		mainTextArea = new JTextArea("Testing.");
+		mainTextArea = new JTextArea(player.getLocation().getDescription());
 		mainTextArea.setBounds(100, 100, 600, 250);
 		mainTextArea.setBackground(Color.black);
 		mainTextArea.setForeground(Color.white);
@@ -166,25 +165,6 @@ public class Game {
 		public void actionPerformed(ActionEvent action) {
 			createGameScreen();
 		}
-	}
-
-	public static void main(String[] args) {
-		new Game();
-		Scanner scanner = new Scanner(System.in);
-		String input = null;
-		System.out.println("New/Load ?");
-		input = scanner.nextLine().toLowerCase();
-		if(input.equalsIgnoreCase("load")) {
-			
-		}
-		else if (input.equalsIgnoreCase("new")) {
-			System.out.println("Enter player name: ");
-			input = scanner.nextLine().toLowerCase();
-			Player player = new Player(input);
-			System.out.println(player.toString());
-		}
-		
-		scanner.close();
 	}
 
 }
