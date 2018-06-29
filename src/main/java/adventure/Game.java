@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -158,7 +159,7 @@ public class Game {
 		container.add(choicePanel);
 	}
 	
-	public JPanel createPanel() {
+	public JPanel createPanel(Rectangle bounds) {
 		JPanel panel = new JPanel();
 		return panel;
 	}
