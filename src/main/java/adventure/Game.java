@@ -19,13 +19,16 @@ import components.*;
 
 public class Game {
 	
+	public Player player;
+	
 	public JFrame window;
 	Container container;
 	public int windowX, windowY;
-	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel;
-	public JLabel titleNameLabel, startButtonLabel;
+	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel;
+	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
 	public Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
+	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
 	public JButton startButton, choice0, choice1, choice2, choice3;
 	public JTextArea mainTextArea;
 	
@@ -81,8 +84,31 @@ public class Game {
 	
 	public void createGameScreen() {
 		
+		player = new Player("Colton");
+		
 		titleNamePanel.setVisible(false);
 		startButtonPanel.setVisible(false);
+		
+		hudPanel = new JPanel();
+		hudPanel.setBounds(100, 15, 600, 50);
+		hudPanel.setBackground(Color.black);
+		hudPanel.setLayout(new GridLayout(1, 4));
+		
+		hpLabel = new JLabel("HP:");
+		hpLabel.setFont(smallFont);
+		hpLabel.setForeground(Color.white);
+		
+		hpLabelNumber = new JLabel(Integer.toString(player.getHealth()));
+		hpLabelNumber.setFont(smallFont);
+		hpLabelNumber.setForeground(Color.white);
+		
+		locationLabel = new JLabel("Location:");
+		locationLabel.setFont(smallFont);
+		locationLabel.setForeground(Color.white);
+		
+		locationLabelName = new JLabel(player.getLocationName());
+		locationLabelName.setFont(smallFont);
+		locationLabelName.setForeground(Color.white);
 		
 		mainTextPanel = new JPanel();
 		mainTextPanel.setBounds(100, 100, 600, 250);
@@ -121,12 +147,17 @@ public class Game {
 		choice3.setForeground(Color.white);
 		choice3.setFont(normalFont);
 		choice3.setFocusPainted(false);
-		
+
+		hudPanel.add(hpLabel);
+		hudPanel.add(hpLabelNumber);
+		hudPanel.add(locationLabel);
+		hudPanel.add(locationLabelName);
 		choicePanel.add(choice0);
 		choicePanel.add(choice1);
 		choicePanel.add(choice2);
 		choicePanel.add(choice3);
 		
+		container.add(hudPanel);
 		container.add(mainTextPanel);
 		container.add(choicePanel);
 	}
