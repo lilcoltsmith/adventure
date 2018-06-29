@@ -82,11 +82,17 @@ public class Game {
 	}
 	
 	public void createGameScreen() {
-		
 		player = new Player("Colton");
 		
 		titleNamePanel.setVisible(false);
 		startButtonPanel.setVisible(false);
+		
+		createHud();
+		createMainText();
+		createChoices();
+	}
+	
+	public void createHud() {
 		
 		hudPanel = new JPanel();
 		hudPanel.setBounds(100, 15, 600, 50);
@@ -109,6 +115,15 @@ public class Game {
 		locationLabelName.setFont(smallFont);
 		locationLabelName.setForeground(Color.white);
 		
+		hudPanel.add(hpLabel);
+		hudPanel.add(hpLabelNumber);
+		hudPanel.add(locationLabel);
+		hudPanel.add(locationLabelName);
+		
+		container.add(hudPanel);
+	}
+	
+	public void createMainText() {
 		mainTextPanel = new JPanel();
 		mainTextPanel.setBounds(100, 100, 600, 250);
 		mainTextPanel.setBackground(Color.black);
@@ -121,44 +136,40 @@ public class Game {
 		mainTextArea.setLineWrap(true);
 		mainTextPanel.add(mainTextArea);
 		
+		container.add(mainTextPanel);
+	}
+	
+	public void createChoices() {
 		choicePanel = new JPanel();
 		choicePanel.setBounds(250, 350, 300, 150);
 		choicePanel.setBackground(Color.black);
 		choicePanel.setLayout(new GridLayout(4,1));
 		
-		choice0 = new JButton("choice0");
-		choice0.setBackground(Color.black);
-		choice0.setForeground(Color.white);
-		choice0.setFont(normalFont);
-		choice0.setFocusPainted(false);
-		choice1 = new JButton("choice1");
-		choice1.setBackground(Color.black);
-		choice1.setForeground(Color.white);
-		choice1.setFont(normalFont);
-		choice1.setFocusPainted(false);
-		choice2 = new JButton("choice2");
-		choice2.setBackground(Color.black);
-		choice2.setForeground(Color.white);
-		choice2.setFont(normalFont);
-		choice2.setFocusPainted(false);
-		choice3 = new JButton("choice3");
-		choice3.setBackground(Color.black);
-		choice3.setForeground(Color.white);
-		choice3.setFont(normalFont);
-		choice3.setFocusPainted(false);
+		choice0 = createChoice("choice0");
+		choice1 = createChoice("choice1");
+		choice2 = createChoice("choice2");
+		choice3 = createChoice("choice3");
 
-		hudPanel.add(hpLabel);
-		hudPanel.add(hpLabelNumber);
-		hudPanel.add(locationLabel);
-		hudPanel.add(locationLabelName);
 		choicePanel.add(choice0);
 		choicePanel.add(choice1);
 		choicePanel.add(choice2);
 		choicePanel.add(choice3);
 		
-		container.add(hudPanel);
-		container.add(mainTextPanel);
 		container.add(choicePanel);
+	}
+	
+	public JPanel createPanel() {
+		JPanel panel = new JPanel();
+		return panel;
+	}
+	
+	public JButton createChoice(String text) {
+		JButton choice = new JButton(text);
+		choice.setBackground(Color.black);
+		choice.setForeground(Color.white);
+		choice.setFont(normalFont);
+		choice.setFocusPainted(false);
+		return choice;
 	}
 	
 	public class TitleScreenHandler implements ActionListener {

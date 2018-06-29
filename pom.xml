@@ -2,6 +2,24 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.adventure</groupId>
   <artifactId>adventure</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>Adventure</name>
+  
+  	<build>
+  		<plugins>
+		  	<plugin>
+		    	<groupId>org.apache.maven.plugins</groupId>
+		    	<artifactId>maven-jar-plugin</artifactId>
+		   		<configuration>
+		       		<archive>
+		           		<manifest>
+		               		<addClasspath>true</addClasspath>
+		               		<classpathPrefix>src/main/java</classpathPrefix>
+		               		<mainClass>adventure.Adventure</mainClass>
+		           		</manifest>
+		       		</archive>
+		   		</configuration>
+			</plugin>
+		</plugins>
+ 	</build>
 </project>
