@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,123 +53,101 @@ public class Game {
 		window.getContentPane().setBackground(Color.black);
 		window.setLayout(null);
 		container = window.getContentPane();
-		
-		titleNamePanel = new JPanel();
-		titleNamePanel.setBounds(100, 100, 600, 150);
-		titleNamePanel.setBackground(Color.black);
-		titleNameLabel = new JLabel("ADVENTURE");
-		titleNameLabel.setForeground(Color.white);
-		titleNameLabel.setFont(titleFont);
-		
-		startButtonPanel = new JPanel();
-		startButtonPanel.setBounds(300, 400, 200, 100);
-		startButtonPanel.setBackground(Color.black);
-		
-		startButton = new JButton("START");
-		startButton.setBackground(Color.black);
-		startButton.setForeground(Color.white);
-		startButton.setFont(normalFont);
-		startButton.setFocusPainted(false);
-		startButton.addActionListener(tsHandler);
-		
+		titleNamePanel = createPanel(100, 100, 600, 150, Color.black);
+		titleNameLabel = createLabel("ADVENTURE", Color.white, titleFont);
+		startButtonPanel = createPanel(300, 400, 200, 100, Color.black);
+		startButton = createButton("START", tsHandler);
 		titleNamePanel.add(titleNameLabel);
 		startButtonPanel.add(startButton);
-		
 		container.add(titleNamePanel);
 		container.add(startButtonPanel);
 		window.setVisible(true);
-		//window.validate();
 	}
 	
 	public void createGameScreen() {
 		player = new Player("Colton");
-		
 		titleNamePanel.setVisible(false);
 		startButtonPanel.setVisible(false);
-		
 		createHud();
 		createMainText();
 		createChoices();
 	}
 	
 	public void createHud() {
-		
-		hudPanel = new JPanel();
-		hudPanel.setBounds(100, 15, 600, 50);
-		hudPanel.setBackground(Color.black);
+		hudPanel = createPanel(100, 15, 600, 50, Color.black);
 		hudPanel.setLayout(new GridLayout(1, 4));
-		
-		hpLabel = new JLabel("HP:");
-		hpLabel.setFont(smallFont);
-		hpLabel.setForeground(Color.white);
-		
-		hpLabelNumber = new JLabel(Integer.toString(player.getHealth()));
-		hpLabelNumber.setFont(smallFont);
-		hpLabelNumber.setForeground(Color.white);
-		
-		locationLabel = new JLabel("Location:");
-		locationLabel.setFont(smallFont);
-		locationLabel.setForeground(Color.white);
-		
-		locationLabelName = new JLabel(player.getLocationName());
-		locationLabelName.setFont(smallFont);
-		locationLabelName.setForeground(Color.white);
-		
+		hpLabel = createLabel("HP:", Color.white, smallFont);
+		hpLabelNumber = createLabel(Integer.toString(player.getHealth()), Color.white, smallFont);
+		locationLabel = createLabel("Location:", Color.white, smallFont);
+		locationLabelName = createLabel(player.getLocationName(), Color.white, smallFont);
 		hudPanel.add(hpLabel);
 		hudPanel.add(hpLabelNumber);
 		hudPanel.add(locationLabel);
-		hudPanel.add(locationLabelName);
-		
+		hudPanel.add(locationLabelName);		
 		container.add(hudPanel);
 	}
 	
 	public void createMainText() {
-		mainTextPanel = new JPanel();
-		mainTextPanel.setBounds(100, 100, 600, 250);
-		mainTextPanel.setBackground(Color.black);
-		
-		mainTextArea = new JTextArea(player.getLocation().getDescription());
-		mainTextArea.setBounds(100, 100, 600, 250);
-		mainTextArea.setBackground(Color.black);
-		mainTextArea.setForeground(Color.white);
-		mainTextArea.setFont(normalFont);
-		mainTextArea.setLineWrap(true);
+		mainTextPanel = createPanel(100, 100, 600, 250, Color.black);
+		mainTextArea = createTextArea(100, 100, 600, 250, player.getLocation().getDescription(), Color.black, Color.white, normalFont);
 		mainTextPanel.add(mainTextArea);
-		
 		container.add(mainTextPanel);
 	}
 	
 	public void createChoices() {
-		choicePanel = new JPanel();
-		choicePanel.setBounds(250, 350, 300, 150);
-		choicePanel.setBackground(Color.black);
+		choicePanel = createPanel(100, 350, 600, 150, Color.black);
 		choicePanel.setLayout(new GridLayout(4,1));
-		
-		choice0 = createChoice("choice0");
-		choice1 = createChoice("choice1");
-		choice2 = createChoice("choice2");
-		choice3 = createChoice("choice3");
-
+		choice0 = createButton("choice0", null);
+		choice1 = createButton("choice1", null);
+		choice2 = createButton("choice2", null);
+		choice3 = createButton("choice3", null);
 		choicePanel.add(choice0);
 		choicePanel.add(choice1);
 		choicePanel.add(choice2);
 		choicePanel.add(choice3);
-		
 		container.add(choicePanel);
 	}
 	
-	public JPanel createPanel(Rectangle bounds) {
+	public JPanel createPanel(int x, int y, int width, int height, Color color) {
 		JPanel panel = new JPanel();
+		panel.setBounds(x, y, width, height);
+		panel.setBackground(color);
 		return panel;
 	}
 	
-	public JButton createChoice(String text) {
-		JButton choice = new JButton(text);
-		choice.setBackground(Color.black);
-		choice.setForeground(Color.white);
-		choice.setFont(normalFont);
-		choice.setFocusPainted(false);
-		return choice;
+	public JLabel createLabel(String text, Color foreground, Font font) {
+		JLabel label = new JLabel(text);
+		label.setForeground(foreground);
+		label.setFont(font);
+		return label;
+	}
+	
+	public JLabel createLabel(String text, Color background, Color foreground, Font font) {
+		JLabel label = new JLabel(text);
+		label.setBackground(background);
+		label.setForeground(foreground);
+		label.setFont(font);
+		return label;
+	}
+	
+	public JButton createButton(String text, ActionListener action) {
+		JButton button = new JButton(text);
+		button.setBackground(Color.black);
+		button.setForeground(Color.white);
+		button.setFont(normalFont);
+		button.setFocusPainted(false);
+		button.addActionListener(action);
+		return button;
+	}
+	
+	public JTextArea createTextArea(int x, int y, int width, int height, String text, Color background, Color foreground, Font font) {
+		JTextArea textArea = new JTextArea(text);
+		textArea.setBounds(x, y, width, height);
+		textArea.setBackground(background);
+		textArea.setForeground(foreground);
+		textArea.setFont(font);
+		textArea.setLineWrap(true);
+		return textArea;
 	}
 	
 	public class TitleScreenHandler implements ActionListener {
