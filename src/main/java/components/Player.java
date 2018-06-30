@@ -1,7 +1,6 @@
 package components;
 
 import items.*;
-import locations.*;
 
 public class Player {
 	private String name;
@@ -16,7 +15,7 @@ public class Player {
 		this.health = 50;
 		this.inventory = new Inventory();
 		this.inventory.addItem(new Sword("rusty sword", 5));
-		this.location = new Awakening("Awakening", "Before you is a monolithic shrine to Zork...");
+		this.location = null;
 	}
 
 	public String getName() {
@@ -57,6 +56,10 @@ public class Player {
 	
 	public String getLocationName() {
 		return location.getName();
+	}
+	
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override

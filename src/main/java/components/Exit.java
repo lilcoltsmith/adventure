@@ -52,8 +52,7 @@ public class Exit {
 	private String directionName;
 	private String shortDirectionName;
 	
-	public Exit()
-	{
+	public Exit() {
 		direction = Exit.UNDEFINED;
 		leadsTo = null;
 		directionName = dirName[UNDEFINED];
@@ -61,8 +60,7 @@ public class Exit {
 	}
 
 	
-	public Exit( int direction, Location leadsTo )
-	{
+	public Exit( int direction, Location leadsTo ) {
 		this.direction = direction;
 
 		// Assign direction names

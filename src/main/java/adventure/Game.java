@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import components.*;
 public class Game {
 	
 	public Player player;
+	public Map map = new Map();
 	
 	public JFrame window;
 	public Container container;
@@ -32,6 +34,12 @@ public class Game {
 	public JTextArea mainTextArea;
 	
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
+	public navigationHandler navHandler = new navigationHandler();
+	public actionHandler actionHandler = new actionHandler();
+	public northHandler nHandler = new northHandler();
+	public southHandler sHandler = new southHandler();
+	public eastHandler eHandler = new eastHandler();
+	public westHandler wHandler = new westHandler();
 	
 	public Game() {
 		
@@ -66,6 +74,7 @@ public class Game {
 	
 	public void createGameScreen() {
 		player = new Player("Colton");
+		player.setLocation(map.awakening);
 		titleNamePanel.setVisible(false);
 		startButtonPanel.setVisible(false);
 		createHud();
@@ -97,15 +106,62 @@ public class Game {
 	public void createChoices() {
 		choicePanel = createPanel(100, 350, 600, 150, Color.black);
 		choicePanel.setLayout(new GridLayout(4,1));
-		choice0 = createButton("Test", player.getLocation().getActions().get(0));
-		choice1 = createButton("choice1", null);
-		choice2 = createButton("choice2", null);
-		choice3 = createButton("choice3", null);
+		
+		choice0 = createButton("--", null);
+		choice1 = createButton("--", null);
+		choice2 = createButton("--", null);
+		choice3 = createButton("--", null);
+		
+		createInitialChoices();
+		addChoices();
+		
+		container.add(choicePanel);
+	}
+	
+	public void createInitialChoices() {
+		removeChoiceActionListeners();
+		choice0.setText("Navigate"); choice0.addActionListener(navHandler);
+		choice1.setText("Actions"); choice1.addActionListener(actionHandler);
+		choice2.setText("--");
+		choice3.setText("--");
+	}
+	
+	public void createNavigation() {	
+		removeChoiceActionListeners();
+		choice0.setText("Go North"); choice0.addActionListener(nHandler);
+		choice1.setText("Go South"); choice1.addActionListener(sHandler);
+		choice2.setText("Go East"); choice2.addActionListener(eHandler);
+		choice3.setText("Go West"); choice3.addActionListener(wHandler);
+	}
+	
+	public void createActions() {
+		removeChoiceActionListeners();
+		choice0.setText("action0"); choice0.addActionListener(null);
+		choice1.setText("action1"); choice1.addActionListener(null);
+		choice2.setText("action2"); choice2.addActionListener(null);
+		choice3.setText("action3"); choice3.addActionListener(null);
+	}
+	
+	public void addChoices() {
 		choicePanel.add(choice0);
 		choicePanel.add(choice1);
 		choicePanel.add(choice2);
 		choicePanel.add(choice3);
-		container.add(choicePanel);
+	}
+	
+	public void removeChoiceActionListeners() {
+		for(ActionListener l : choice0.getActionListeners()) {
+			choice0.removeActionListener(l);
+		}
+		for(ActionListener l : choice1.getActionListeners()) {
+			choice1.removeActionListener(l);
+		}
+		for(ActionListener l : choice2.getActionListeners()) {
+			choice2.removeActionListener(l);
+		}
+		for(ActionListener l : choice3.getActionListeners()) {
+			choice3.removeActionListener(l);
+		}
 	}
 	
 	public JPanel createPanel(int x, int y, int width, int height, Color color) {
@@ -132,6 +188,7 @@ public class Game {
 	
 	public JButton createButton(String text, ActionListener action) {
 		JButton button = new JButton(text);
+		button.setActionCommand(text);
 		button.setBackground(Color.black);
 		button.setForeground(Color.white);
 		button.setFont(normalFont);
@@ -153,6 +210,78 @@ public class Game {
 	public class TitleScreenHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			createGameScreen();
+		}
+	}
+	
+	public class navigationHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			createNavigation();
+		}
+	}
+	
+	public class actionHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			createActions();
+		}
+	}
+	
+	public class northHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			List<Exit> exits = player.getLocation().getExits();
+			for(int i = 0; i < exits.size(); i++) {
+				if(exits.get(i).getDirectionName().equals("NORTH")) {
+					System.out.println(exits.get(i).getDirectionName());
+					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
+					locationLabelName.setText(player.getLocationName());
+					mainTextArea.setText(player.getLocation().getDescription());
+					createInitialChoices();
+				}
+			}
+		}
+	}
+	
+	public class southHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			List<Exit> exits = player.getLocation().getExits();
+			for(int i = 0; i < exits.size(); i++) {
+				if(exits.get(i).getDirectionName().equals("SOUTH")) {
+					System.out.println(exits.get(i).getDirectionName());
+					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
+					locationLabelName.setText(player.getLocationName());
+					mainTextArea.setText(player.getLocation().getDescription());
+					createInitialChoices();
+				}
+			}
+		}
+	}
+	
+	public class eastHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			List<Exit> exits = player.getLocation().getExits();
+			for(int i = 0; i < exits.size(); i++) {
+				if(exits.get(i).getDirectionName().equals("EAST")) {
+					System.out.println(exits.get(i).getDirectionName());
+					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
+					locationLabelName.setText(player.getLocationName());
+					mainTextArea.setText(player.getLocation().getDescription());
+					createInitialChoices();
+				}
+			}
+		}
+	}
+	
+	public class westHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			List<Exit> exits = player.getLocation().getExits();
+			for(int i = 0; i < exits.size(); i++) {
+				if(exits.get(i).getDirectionName().equals("WEST")) {
+					System.out.println(exits.get(i).getDirectionName());
+					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
+					locationLabelName.setText(player.getLocationName());
+					mainTextArea.setText(player.getLocation().getDescription());
+					createInitialChoices();
+				}
+			}
 		}
 	}
 
