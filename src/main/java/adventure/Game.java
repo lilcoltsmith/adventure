@@ -25,12 +25,12 @@ public class Game {
 	public JFrame window;
 	public Container container;
 	public int windowX, windowY;
-	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel;
+	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
 	public Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
-	public JButton startButton, choice0, choice1, choice2, choice3;
+	public JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
 	public JTextArea mainTextArea;
 	
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
@@ -80,6 +80,8 @@ public class Game {
 		createHud();
 		createMainText();
 		createChoices();
+		createSubChoices();
+		
 	}
 	
 	public void createHud() {
@@ -118,6 +120,20 @@ public class Game {
 		container.add(choicePanel);
 	}
 	
+	public void createSubChoices() {
+		subChoicePanel = createPanel(100, 500, 600, 50, Color.black);
+		subChoicePanel.setLayout(new GridLayout(1,4));
+		
+		subChoice0 = createButton("--", null);
+		subChoice1 = createButton("--", null);
+		subChoice2 = createButton("--", null);
+		subChoice3 = createButton("--", null);
+		
+		addSubChoices();
+		
+		container.add(subChoicePanel);
+	}
+	
 	public void createInitialChoices() {
 		removeChoiceActionListeners();
 		choice0.setText("Navigate"); choice0.addActionListener(navHandler);
@@ -147,6 +163,13 @@ public class Game {
 		choicePanel.add(choice1);
 		choicePanel.add(choice2);
 		choicePanel.add(choice3);
+	}
+	
+	public void addSubChoices() {
+		subChoicePanel.add(subChoice0);
+		subChoicePanel.add(subChoice1);
+		subChoicePanel.add(subChoice2);
+		subChoicePanel.add(subChoice3);
 	}
 	
 	public void removeChoiceActionListeners() {
@@ -222,6 +245,12 @@ public class Game {
 	public class actionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			createActions();
+		}
+	}
+	
+	public class backHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			createInitialChoices();
 		}
 	}
 	
