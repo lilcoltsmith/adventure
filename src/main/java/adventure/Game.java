@@ -18,25 +18,32 @@ import javax.swing.UIManager;
 import components.*;
 
 public class Game {
-	
+	// player/map
 	public Player player;
 	public Map map = new Map();
-	
+	// menu state
+	public String menuState;
+	// pages
+	int navPage = 0, actionPage = 0;
+	// window elements
 	public JFrame window;
 	public Container container;
 	public int windowX, windowY;
 	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
+	public JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
+	public JTextArea mainTextArea;
+	// fonts
 	public Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
-	public JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
-	public JTextArea mainTextArea;
 	
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
 	public NavigationHandler navHandler = new NavigationHandler();
 	public ActionHandler actionHandler = new ActionHandler();
 	public BackHandler backHandler = new BackHandler();
+	public NextHandler nextHandler = new NextHandler();
+	public PreviousHandler prevHandler = new PreviousHandler();
 	public NorthHandler nHandler = new NorthHandler();
 	public SouthHandler sHandler = new SouthHandler();
 	public EastHandler eHandler = new EastHandler();
@@ -125,8 +132,8 @@ public class Game {
 		subChoicePanel.setLayout(new GridLayout(1,4));
 		
 		subChoice0 = createButton("Back", backHandler);
-		subChoice1 = createButton("<<", null);
-		subChoice2 = createButton(">>", null);
+		subChoice1 = createButton("<<", prevHandler);
+		subChoice2 = createButton(">>", nextHandler);
 		subChoice3 = createButton("--", null);
 		
 		addSubChoices();
@@ -136,22 +143,98 @@ public class Game {
 	
 	public void createInitialChoices() {
 		removeChoiceActionListeners();
+		menuState = "main";
 		choice0.setText("Navigate"); choice0.addActionListener(navHandler);
 		choice1.setText("Actions"); choice1.addActionListener(actionHandler);
 		choice2.setText("--");
 		choice3.setText("--");
 	}
 	
-	public void createNavigation() {	
+	public void createNavigation(int page) {	
+		List<Exit> exits = player.getLocation().getExits();
+		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
+	
 		removeChoiceActionListeners();
-		choice0.setText("Go North"); choice0.addActionListener(nHandler);
-		choice1.setText("Go South"); choice1.addActionListener(sHandler);
-		choice2.setText("Go East"); choice2.addActionListener(eHandler);
-		choice3.setText("Go West"); choice3.addActionListener(wHandler);
+		menuState = "nav";
+		if(exits != null) {
+			if(one >=0 && one <= exits.size()-1) {
+				choice0.setText(exits.get(one).getDirectionName());
+				switch(choice0.getText()) {
+					case "NORTH":
+						choice0.addActionListener(nHandler);
+						break;
+					case "SOUTH":
+						choice0.addActionListener(sHandler);
+						break;
+					case "EAST":
+						choice0.addActionListener(eHandler);
+						break;
+					case "WEST":
+						choice0.addActionListener(wHandler);
+						break;
+				}
+			}
+			else choice0.setText("--");
+			if(two >=0 && two <= exits.size()-1) {
+				choice1.setText(exits.get(two).getDirectionName());
+				switch(choice1.getText()) {
+				case "NORTH":
+					choice1.addActionListener(nHandler);
+					break;
+				case "SOUTH":
+					choice1.addActionListener(sHandler);
+					break;
+				case "EAST":
+					choice1.addActionListener(eHandler);
+					break;
+				case "WEST":
+					choice1.addActionListener(wHandler);
+					break;
+			}
+			}
+			else choice1.setText("--");
+			if(three >=0 && three <= exits.size()-1) {
+				choice2.setText(exits.get(three).getDirectionName());
+				switch(choice2.getText()) {
+				case "NORTH":
+					choice2.addActionListener(nHandler);
+					break;
+				case "SOUTH":
+					choice2.addActionListener(sHandler);
+					break;
+				case "EAST":
+					choice2.addActionListener(eHandler);
+					break;
+				case "WEST":
+					choice2.addActionListener(wHandler);
+					break;
+			}
+			}
+			else choice2.setText("--");
+			if(four >=0 && four <= exits.size()-1) {
+				choice3.setText(exits.get(four).getDirectionName());
+				switch(choice3.getText()) {
+				case "NORTH":
+					choice3.addActionListener(nHandler);
+					break;
+				case "SOUTH":
+					choice3.addActionListener(sHandler);
+					break;
+				case "EAST":
+					choice3.addActionListener(eHandler);
+					break;
+				case "WEST":
+					choice3.addActionListener(wHandler);
+					break;
+			}
+			}
+			else choice3.setText("--");
+		}
 	}
 	
 	public void createActions() {
 		removeChoiceActionListeners();
+		menuState = "action";
 		choice0.setText("action0"); choice0.addActionListener(null);
 		choice1.setText("action1"); choice1.addActionListener(null);
 		choice2.setText("action2"); choice2.addActionListener(null);
@@ -238,7 +321,7 @@ public class Game {
 	
 	public class NavigationHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			createNavigation();
+			createNavigation(navPage);
 		}
 	}
 	
@@ -251,6 +334,32 @@ public class Game {
 	public class BackHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			createInitialChoices();
+		}
+	}
+	
+	public class NextHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			switch(menuState) {
+				case "main":
+					break;
+				case "nav":
+					navPage++; createNavigation(navPage); break;
+				case "action":
+					actionPage++; createActions(); break;
+			}
+		}
+	}
+	
+	public class PreviousHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			switch(menuState) {
+			case "main":
+				break;
+			case "nav":
+				navPage--; createNavigation(navPage); break;
+			case "action":
+				actionPage--; createActions(); break;
+		}
 		}
 	}
 	
