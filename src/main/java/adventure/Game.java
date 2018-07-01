@@ -152,125 +152,55 @@ public class Game {
 		if(exits != null) {
 			if(one >=0 && one <= exits.size()-1) {
 				choice0.setText(exits.get(one).getDirectionName());
-				switch(choice0.getText()) {
-					case "NORTH":
-						choice0.addActionListener(handler.nHandler);
-						break;
-					case "SOUTH":
-						choice0.addActionListener(handler.sHandler);
-						break;
-					case "EAST":
-						choice0.addActionListener(handler.eHandler);
-						break;
-					case "WEST":
-						choice0.addActionListener(handler.wHandler);
-						break;
-					case "IN":
-						choice0.addActionListener(handler.iHandler);
-						break;
-					case "OUT":
-						choice0.addActionListener(handler.oHandler);
-						break;
-					case "UP":
-						choice0.addActionListener(handler.uHandler);
-						break;
-					case "DOWN":
-						choice0.addActionListener(handler.dHandler);
-						break;
-				}
+				choice0 = addChoiceAction(choice0);
 			}
 			else choice0.setText("--");
 			if(two >=0 && two <= exits.size()-1) {
 				choice1.setText(exits.get(two).getDirectionName());
-				switch(choice1.getText()) {
-				case "NORTH":
-					choice1.addActionListener(handler.nHandler);
-					break;
-				case "SOUTH":
-					choice1.addActionListener(handler.sHandler);
-					break;
-				case "EAST":
-					choice1.addActionListener(handler.eHandler);
-					break;
-				case "WEST":
-					choice1.addActionListener(handler.wHandler);
-					break;
-				case "IN":
-					choice1.addActionListener(handler.iHandler);
-					break;
-				case "OUT":
-					choice1.addActionListener(handler.oHandler);
-					break;
-				case "UP":
-					choice1.addActionListener(handler.uHandler);
-					break;
-				case "DOWN":
-					choice1.addActionListener(handler.dHandler);
-					break;
-			}
+				choice1 = addChoiceAction(choice1);
 			}
 			else choice1.setText("--");
 			if(three >=0 && three <= exits.size()-1) {
 				choice2.setText(exits.get(three).getDirectionName());
-				switch(choice2.getText()) {
-				case "NORTH":
-					choice2.addActionListener(handler.nHandler);
-					break;
-				case "SOUTH":
-					choice2.addActionListener(handler.sHandler);
-					break;
-				case "EAST":
-					choice2.addActionListener(handler.eHandler);
-					break;
-				case "WEST":
-					choice2.addActionListener(handler.wHandler);
-					break;
-				case "IN":
-					choice2.addActionListener(handler.iHandler);
-					break;
-				case "OUT":
-					choice2.addActionListener(handler.oHandler);
-					break;
-				case "UP":
-					choice2.addActionListener(handler.uHandler);
-					break;
-				case "DOWN":
-					choice2.addActionListener(handler.dHandler);
-					break;
-			}
+				choice2 = addChoiceAction(choice2);
 			}
 			else choice2.setText("--");
 			if(four >=0 && four <= exits.size()-1) {
 				choice3.setText(exits.get(four).getDirectionName());
-				switch(choice3.getText()) {
-				case "NORTH":
-					choice3.addActionListener(handler.nHandler);
-					break;
-				case "SOUTH":
-					choice3.addActionListener(handler.sHandler);
-					break;
-				case "EAST":
-					choice3.addActionListener(handler.eHandler);
-					break;
-				case "WEST":
-					choice3.addActionListener(handler.wHandler);
-					break;
-				case "IN":
-					choice3.addActionListener(handler.iHandler);
-					break;
-				case "OUT":
-					choice3.addActionListener(handler.oHandler);
-					break;
-				case "UP":
-					choice3.addActionListener(handler.uHandler);
-					break;
-				case "DOWN":
-					choice3.addActionListener(handler.dHandler);
-					break;
-			}
+				choice3 = addChoiceAction(choice3);
 			}
 			else choice3.setText("--");
 		}
+	}
+	
+	public JButton addChoiceAction(JButton choice) {
+		switch(choice.getText()) {
+		case "NORTH":
+			choice.addActionListener(handler.nHandler);
+			break;
+		case "SOUTH":
+			choice.addActionListener(handler.sHandler);
+			break;
+		case "EAST":
+			choice.addActionListener(handler.eHandler);
+			break;
+		case "WEST":
+			choice.addActionListener(handler.wHandler);
+			break;
+		case "IN":
+			choice.addActionListener(handler.iHandler);
+			break;
+		case "OUT":
+			choice.addActionListener(handler.oHandler);
+			break;
+		case "UP":
+			choice.addActionListener(handler.uHandler);
+			break;
+		case "DOWN":
+			choice.addActionListener(handler.dHandler);
+			break;
+		}
+		return choice;
 	}
 	
 	public void createActions(int page) {
@@ -286,15 +216,15 @@ public class Game {
 			}
 			else choice0.setText("--");
 			if(two >=0 && two <= actions.size()-1) {
-				choice1.setText(actionDescriptions.get(two));
+				choice1.setText(actionDescriptions.get(two)); choice1.addActionListener(actions.get(two));
 			}
 			else choice1.setText("--");
 			if(three >=0 && three <= actions.size()-1) {
-				choice2.setText(actionDescriptions.get(three));
+				choice2.setText(actionDescriptions.get(three)); choice2.addActionListener(actions.get(three));
 			}
 			else choice2.setText("--");
 			if(four >=0 && four <= actions.size()-1) {
-				choice3.setText(actionDescriptions.get(four));
+				choice3.setText(actionDescriptions.get(four)); choice3.addActionListener(actions.get(four));
 			}
 			else choice3.setText("--");
 		}
