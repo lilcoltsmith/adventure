@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
-import components.*;
+import components.Player;
+import components.Exit;
 import util.GameHandler;
 
 public class Game {

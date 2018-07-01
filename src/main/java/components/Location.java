@@ -4,8 +4,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import adventure.Game;
-
 public abstract class Location {
 	public String name;
 	public String description;
@@ -82,7 +80,5 @@ public abstract class Location {
 		return "Location [name=" + name + ", description=" + description + ", actionDescriptions=" + actionDescriptions
 				+ ", actions=" + actions + ", exits=" + exits + "]";
 	}
-	
-	
 
 }
