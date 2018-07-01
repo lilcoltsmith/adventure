@@ -34,12 +34,13 @@ public class Game {
 	public JTextArea mainTextArea;
 	
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
-	public navigationHandler navHandler = new navigationHandler();
-	public actionHandler actionHandler = new actionHandler();
-	public northHandler nHandler = new northHandler();
-	public southHandler sHandler = new southHandler();
-	public eastHandler eHandler = new eastHandler();
-	public westHandler wHandler = new westHandler();
+	public NavigationHandler navHandler = new NavigationHandler();
+	public ActionHandler actionHandler = new ActionHandler();
+	public BackHandler backHandler = new BackHandler();
+	public NorthHandler nHandler = new NorthHandler();
+	public SouthHandler sHandler = new SouthHandler();
+	public EastHandler eHandler = new EastHandler();
+	public WestHandler wHandler = new WestHandler();
 	
 	public Game() {
 		
@@ -81,7 +82,6 @@ public class Game {
 		createMainText();
 		createChoices();
 		createSubChoices();
-		
 	}
 	
 	public void createHud() {
@@ -124,9 +124,9 @@ public class Game {
 		subChoicePanel = createPanel(100, 500, 600, 50, Color.black);
 		subChoicePanel.setLayout(new GridLayout(1,4));
 		
-		subChoice0 = createButton("--", null);
-		subChoice1 = createButton("--", null);
-		subChoice2 = createButton("--", null);
+		subChoice0 = createButton("Back", backHandler);
+		subChoice1 = createButton("<<", null);
+		subChoice2 = createButton(">>", null);
 		subChoice3 = createButton("--", null);
 		
 		addSubChoices();
@@ -236,30 +236,29 @@ public class Game {
 		}
 	}
 	
-	public class navigationHandler implements ActionListener {
+	public class NavigationHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			createNavigation();
 		}
 	}
 	
-	public class actionHandler implements ActionListener {
+	public class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			createActions();
 		}
 	}
 	
-	public class backHandler implements ActionListener {
+	public class BackHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			createInitialChoices();
 		}
 	}
 	
-	public class northHandler implements ActionListener {
+	public class NorthHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			List<Exit> exits = player.getLocation().getExits();
 			for(int i = 0; i < exits.size(); i++) {
 				if(exits.get(i).getDirectionName().equals("NORTH")) {
-					System.out.println(exits.get(i).getDirectionName());
 					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
 					locationLabelName.setText(player.getLocationName());
 					mainTextArea.setText(player.getLocation().getDescription());
@@ -269,12 +268,11 @@ public class Game {
 		}
 	}
 	
-	public class southHandler implements ActionListener {
+	public class SouthHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			List<Exit> exits = player.getLocation().getExits();
 			for(int i = 0; i < exits.size(); i++) {
 				if(exits.get(i).getDirectionName().equals("SOUTH")) {
-					System.out.println(exits.get(i).getDirectionName());
 					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
 					locationLabelName.setText(player.getLocationName());
 					mainTextArea.setText(player.getLocation().getDescription());
@@ -284,12 +282,11 @@ public class Game {
 		}
 	}
 	
-	public class eastHandler implements ActionListener {
+	public class EastHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			List<Exit> exits = player.getLocation().getExits();
 			for(int i = 0; i < exits.size(); i++) {
 				if(exits.get(i).getDirectionName().equals("EAST")) {
-					System.out.println(exits.get(i).getDirectionName());
 					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
 					locationLabelName.setText(player.getLocationName());
 					mainTextArea.setText(player.getLocation().getDescription());
@@ -299,12 +296,11 @@ public class Game {
 		}
 	}
 	
-	public class westHandler implements ActionListener {
+	public class WestHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			List<Exit> exits = player.getLocation().getExits();
 			for(int i = 0; i < exits.size(); i++) {
 				if(exits.get(i).getDirectionName().equals("WEST")) {
-					System.out.println(exits.get(i).getDirectionName());
 					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
 					locationLabelName.setText(player.getLocationName());
 					mainTextArea.setText(player.getLocation().getDescription());
