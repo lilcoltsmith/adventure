@@ -1,22 +1,15 @@
 package locations;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import adventure.Game;
 import components.Location;
 
 public class South_Forest extends Location {
 
-	public South_Forest(String name, String description) {
-		super(name, description);
-		this.actions.add(new Action0());
-		// TODO Auto-generated constructor stub
-	}
+	private Game game;
 	
-	public class Action0 implements ActionListener{
-		public void actionPerformed(ActionEvent action) {
-			System.out.println("you're in a forest");
-		}
+	public South_Forest(Game game, String name, String description) {
+		super(name, description);
+		this.game = game;
 	}
 
 }

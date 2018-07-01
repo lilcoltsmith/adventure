@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -16,15 +15,18 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import components.*;
+import util.GameHandler;
 
 public class Game {
 	// player/map
 	public Player player;
-	public Map map = new Map();
+	public Map map;
+	public GameHandler handler;
 	// menu state
 	public String menuState;
 	// pages
-	int navPage = 0, actionPage = 0;
+	public int navPage = 0;
+	public int actionPage = 0;
 	// window elements
 	public JFrame window;
 	public Container container;
@@ -37,26 +39,16 @@ public class Game {
 	public Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
-	
-	public TitleScreenHandler tsHandler = new TitleScreenHandler();
-	public NavigationHandler navHandler = new NavigationHandler();
-	public ActionHandler actionHandler = new ActionHandler();
-	public BackHandler backHandler = new BackHandler();
-	public NextHandler nextHandler = new NextHandler();
-	public PreviousHandler prevHandler = new PreviousHandler();
-	public NorthHandler nHandler = new NorthHandler();
-	public SouthHandler sHandler = new SouthHandler();
-	public EastHandler eHandler = new EastHandler();
-	public WestHandler wHandler = new WestHandler();
-	
-	public Game() {
+		
+	public Game(Map map) {
 		
 		try {
 		    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
 		 } catch (Exception e) {
 		            e.printStackTrace();
 		 }
-		
+		this.map = new Map(this);
+		this.handler = new GameHandler(this);
 		titleScreen();
 
 	}
@@ -72,7 +64,7 @@ public class Game {
 		titleNamePanel = createPanel(100, 100, 600, 150, Color.black);
 		titleNameLabel = createLabel("ADVENTURE", Color.white, titleFont);
 		startButtonPanel = createPanel(300, 400, 200, 100, Color.black);
-		startButton = createButton("START", tsHandler);
+		startButton = createButton("START", handler.tsHandler);
 		titleNamePanel.add(titleNameLabel);
 		startButtonPanel.add(startButton);
 		container.add(titleNamePanel);
@@ -131,9 +123,9 @@ public class Game {
 		subChoicePanel = createPanel(100, 500, 600, 50, Color.black);
 		subChoicePanel.setLayout(new GridLayout(1,4));
 		
-		subChoice0 = createButton("Back", backHandler);
-		subChoice1 = createButton("<<", prevHandler);
-		subChoice2 = createButton(">>", nextHandler);
+		subChoice0 = createButton("Back", handler.backHandler);
+		subChoice1 = createButton("<<", handler.prevHandler);
+		subChoice2 = createButton(">>", handler.nextHandler);
 		subChoice3 = createButton("--", null);
 		
 		addSubChoices();
@@ -144,8 +136,9 @@ public class Game {
 	public void createInitialChoices() {
 		removeChoiceActionListeners();
 		menuState = "main";
-		choice0.setText("Navigate"); choice0.addActionListener(navHandler);
-		choice1.setText("Actions"); choice1.addActionListener(actionHandler);
+		navPage = 0; actionPage = 0;
+		choice0.setText("Navigate"); choice0.addActionListener(handler.navHandler);
+		choice1.setText("Actions"); choice1.addActionListener(handler.actionHandler);
 		choice2.setText("--");
 		choice3.setText("--");
 	}
@@ -161,16 +154,28 @@ public class Game {
 				choice0.setText(exits.get(one).getDirectionName());
 				switch(choice0.getText()) {
 					case "NORTH":
-						choice0.addActionListener(nHandler);
+						choice0.addActionListener(handler.nHandler);
 						break;
 					case "SOUTH":
-						choice0.addActionListener(sHandler);
+						choice0.addActionListener(handler.sHandler);
 						break;
 					case "EAST":
-						choice0.addActionListener(eHandler);
+						choice0.addActionListener(handler.eHandler);
 						break;
 					case "WEST":
-						choice0.addActionListener(wHandler);
+						choice0.addActionListener(handler.wHandler);
+						break;
+					case "IN":
+						choice0.addActionListener(handler.iHandler);
+						break;
+					case "OUT":
+						choice0.addActionListener(handler.oHandler);
+						break;
+					case "UP":
+						choice0.addActionListener(handler.uHandler);
+						break;
+					case "DOWN":
+						choice0.addActionListener(handler.dHandler);
 						break;
 				}
 			}
@@ -179,16 +184,28 @@ public class Game {
 				choice1.setText(exits.get(two).getDirectionName());
 				switch(choice1.getText()) {
 				case "NORTH":
-					choice1.addActionListener(nHandler);
+					choice1.addActionListener(handler.nHandler);
 					break;
 				case "SOUTH":
-					choice1.addActionListener(sHandler);
+					choice1.addActionListener(handler.sHandler);
 					break;
 				case "EAST":
-					choice1.addActionListener(eHandler);
+					choice1.addActionListener(handler.eHandler);
 					break;
 				case "WEST":
-					choice1.addActionListener(wHandler);
+					choice1.addActionListener(handler.wHandler);
+					break;
+				case "IN":
+					choice1.addActionListener(handler.iHandler);
+					break;
+				case "OUT":
+					choice1.addActionListener(handler.oHandler);
+					break;
+				case "UP":
+					choice1.addActionListener(handler.uHandler);
+					break;
+				case "DOWN":
+					choice1.addActionListener(handler.dHandler);
 					break;
 			}
 			}
@@ -197,16 +214,28 @@ public class Game {
 				choice2.setText(exits.get(three).getDirectionName());
 				switch(choice2.getText()) {
 				case "NORTH":
-					choice2.addActionListener(nHandler);
+					choice2.addActionListener(handler.nHandler);
 					break;
 				case "SOUTH":
-					choice2.addActionListener(sHandler);
+					choice2.addActionListener(handler.sHandler);
 					break;
 				case "EAST":
-					choice2.addActionListener(eHandler);
+					choice2.addActionListener(handler.eHandler);
 					break;
 				case "WEST":
-					choice2.addActionListener(wHandler);
+					choice2.addActionListener(handler.wHandler);
+					break;
+				case "IN":
+					choice2.addActionListener(handler.iHandler);
+					break;
+				case "OUT":
+					choice2.addActionListener(handler.oHandler);
+					break;
+				case "UP":
+					choice2.addActionListener(handler.uHandler);
+					break;
+				case "DOWN":
+					choice2.addActionListener(handler.dHandler);
 					break;
 			}
 			}
@@ -215,16 +244,28 @@ public class Game {
 				choice3.setText(exits.get(four).getDirectionName());
 				switch(choice3.getText()) {
 				case "NORTH":
-					choice3.addActionListener(nHandler);
+					choice3.addActionListener(handler.nHandler);
 					break;
 				case "SOUTH":
-					choice3.addActionListener(sHandler);
+					choice3.addActionListener(handler.sHandler);
 					break;
 				case "EAST":
-					choice3.addActionListener(eHandler);
+					choice3.addActionListener(handler.eHandler);
 					break;
 				case "WEST":
-					choice3.addActionListener(wHandler);
+					choice3.addActionListener(handler.wHandler);
+					break;
+				case "IN":
+					choice3.addActionListener(handler.iHandler);
+					break;
+				case "OUT":
+					choice3.addActionListener(handler.oHandler);
+					break;
+				case "UP":
+					choice3.addActionListener(handler.uHandler);
+					break;
+				case "DOWN":
+					choice3.addActionListener(handler.dHandler);
 					break;
 			}
 			}
@@ -232,13 +273,31 @@ public class Game {
 		}
 	}
 	
-	public void createActions() {
+	public void createActions(int page) {
+		List<String> actionDescriptions = player.getLocation().getActionDescriptions();
+		List<ActionListener> actions = player.getLocation().getActions();
+		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
+		
 		removeChoiceActionListeners();
 		menuState = "action";
-		choice0.setText("action0"); choice0.addActionListener(null);
-		choice1.setText("action1"); choice1.addActionListener(null);
-		choice2.setText("action2"); choice2.addActionListener(null);
-		choice3.setText("action3"); choice3.addActionListener(null);
+		if(actions != null) {
+			if(one >=0 && one <= actions.size()-1) {
+				choice0.setText(actionDescriptions.get(one)); choice0.addActionListener(actions.get(one));
+			}
+			else choice0.setText("--");
+			if(two >=0 && two <= actions.size()-1) {
+				choice1.setText(actionDescriptions.get(two));
+			}
+			else choice1.setText("--");
+			if(three >=0 && three <= actions.size()-1) {
+				choice2.setText(actionDescriptions.get(three));
+			}
+			else choice2.setText("--");
+			if(four >=0 && four <= actions.size()-1) {
+				choice3.setText(actionDescriptions.get(four));
+			}
+			else choice3.setText("--");
+		}
 	}
 	
 	public void addChoices() {
@@ -312,111 +371,4 @@ public class Game {
 		textArea.setLineWrap(true);
 		return textArea;
 	}
-	
-	public class TitleScreenHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			createGameScreen();
-		}
-	}
-	
-	public class NavigationHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			createNavigation(navPage);
-		}
-	}
-	
-	public class ActionHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			createActions();
-		}
-	}
-	
-	public class BackHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			createInitialChoices();
-		}
-	}
-	
-	public class NextHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			switch(menuState) {
-				case "main":
-					break;
-				case "nav":
-					navPage++; createNavigation(navPage); break;
-				case "action":
-					actionPage++; createActions(); break;
-			}
-		}
-	}
-	
-	public class PreviousHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			switch(menuState) {
-			case "main":
-				break;
-			case "nav":
-				navPage--; createNavigation(navPage); break;
-			case "action":
-				actionPage--; createActions(); break;
-		}
-		}
-	}
-	
-	public class NorthHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("NORTH")) {
-					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
-					locationLabelName.setText(player.getLocationName());
-					mainTextArea.setText(player.getLocation().getDescription());
-					createInitialChoices();
-				}
-			}
-		}
-	}
-	
-	public class SouthHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("SOUTH")) {
-					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
-					locationLabelName.setText(player.getLocationName());
-					mainTextArea.setText(player.getLocation().getDescription());
-					createInitialChoices();
-				}
-			}
-		}
-	}
-	
-	public class EastHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("EAST")) {
-					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
-					locationLabelName.setText(player.getLocationName());
-					mainTextArea.setText(player.getLocation().getDescription());
-					createInitialChoices();
-				}
-			}
-		}
-	}
-	
-	public class WestHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("WEST")) {
-					player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
-					locationLabelName.setText(player.getLocationName());
-					mainTextArea.setText(player.getLocation().getDescription());
-					createInitialChoices();
-				}
-			}
-		}
-	}
-
 }

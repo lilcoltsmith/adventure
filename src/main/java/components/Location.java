@@ -4,15 +4,19 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import adventure.Game;
+
 public abstract class Location {
 	public String name;
 	public String description;
+	public List<String> actionDescriptions;
 	public List<ActionListener> actions;
 	public List<Exit> exits;
 	
 	public Location(String name) {
 		this.name = name;
 		this.description = new String();
+		this.actionDescriptions = new ArrayList<String>();
 		this.actions = new ArrayList<ActionListener>();
 		this.exits = new ArrayList<Exit>();
 	}
@@ -20,13 +24,15 @@ public abstract class Location {
 	public Location(String name, String description) {
 		this.name = name;
 		this.description = description;
+		this.actionDescriptions = new ArrayList<String>();
 		this.actions = new ArrayList<ActionListener>();
 		this.exits = new ArrayList<Exit>();
 	}
 	
-	public Location(String name, String description, List<ActionListener> actions) {
+	public Location(String name, String description, List<String> actionDescriptions, List<ActionListener> actions) {
 		this.name = name;
 		this.description = description;
+		this.actionDescriptions = actionDescriptions;
 		this.actions = actions;
 		this.exits = new ArrayList<Exit>();
 	}
@@ -45,6 +51,14 @@ public abstract class Location {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public List<String> getActionDescriptions() {
+		return actionDescriptions;
+	}
+
+	public void setActionDescriptions(List<String> actionDescriptions) {
+		this.actionDescriptions = actionDescriptions;
 	}
 
 	public List<ActionListener> getActions() {
@@ -65,9 +79,10 @@ public abstract class Location {
 
 	@Override
 	public String toString() {
-		return "Location [name=" + name + ", description=" + description + ", actions=" + actions + ", exits=" + exits
-				+ "]";
+		return "Location [name=" + name + ", description=" + description + ", actionDescriptions=" + actionDescriptions
+				+ ", actions=" + actions + ", exits=" + exits + "]";
 	}
 	
 	
+
 }
