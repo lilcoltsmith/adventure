@@ -14,6 +14,8 @@ public class GameHandler {
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
 	public NavigationHandler navHandler = new NavigationHandler();
 	public ActionHandler actionHandler = new ActionHandler();
+	public InventoryHandler inventoryHandler = new InventoryHandler();
+	public ItemHandler itemHandler = new ItemHandler();
 	public BackHandler backHandler = new BackHandler();
 	public NextHandler nextHandler = new NextHandler();
 	public PreviousHandler prevHandler = new PreviousHandler();
@@ -45,7 +47,20 @@ public class GameHandler {
 	
 	public class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			game.createActions(game.actionPage);
+			game.createActions(game.actionPage, "general", 0);
+		}
+	}
+	
+	public class InventoryHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			game.createInventory(game.inventoryPage);
+		}
+	}
+	
+	public class ItemHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			System.out.println(action.getActionCommand());
+			game.createActions(game.actionPage, "item", Integer.parseInt(action.getActionCommand()));
 		}
 	}
 	
@@ -63,7 +78,9 @@ public class GameHandler {
 				case "nav":
 					game.navPage++; game.createNavigation(game.navPage); break;
 				case "action":
-					game.actionPage++; game.createActions(game.actionPage); break;
+					game.actionPage++; game.createActions(game.actionPage, "genera", 0); break;
+				case "inventory":
+					game.inventoryPage++; game.createInventory(game.inventoryPage); break;
 			}
 		}
 	}
@@ -76,7 +93,7 @@ public class GameHandler {
 			case "nav":
 				game.navPage--; game.createNavigation(game.navPage); break;
 			case "action":
-				game.actionPage--; game.createActions(game.actionPage); break;
+				game.actionPage--; game.createActions(game.actionPage, "general", 0); break;
 		}
 		}
 	}

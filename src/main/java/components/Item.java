@@ -1,24 +1,43 @@
 package components;
 
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public abstract class Item {
-	@SuppressWarnings("unused")
-	private String name;
-	@SuppressWarnings("unused")
-	private List<String> actions;
-	@SuppressWarnings("unused")
-	private String info;
+	public String name;
+	public List<String> actionDescriptions;
+	public List<ActionListener> actions;
+	public String info;
 	
-	public abstract String getName();
+	public String getName() {
+		return this.name;
+	}
 
-	public abstract void setName(String name);
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public List<String> getActionDescriptions(){
+		return this.actionDescriptions;
+	}
 
-	public abstract List<String> getActions();
+	public void setActionDescriptions(List<String> actionDescriptions) {
+		this.actionDescriptions = actionDescriptions;
+	}
 
-	public abstract void setActions(List<String> actions);
+	public List<ActionListener> getActions(){
+		return this.actions;
+	}
 
-	public abstract String getInfo();
+	public void setActions(List<ActionListener> actions) {
+		this.actions = actions;
+	}
 
-	public abstract void setInfo(String info);
+	public String getInfo() {
+		return this.info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
 }

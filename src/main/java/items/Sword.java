@@ -1,27 +1,26 @@
 package items;
 
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import adventure.Game;
 import components.Item;
 
 public class Sword extends Item{
-	private String name;
-	private List<String> actions;
-	private int damage;
-	private String info;
+	public Game game;
+	public int damage;
 	
-	public Sword() {};
+	public Sword(Game game) {
+		this.game = game;
+		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
+		this.actionDescriptions.add("cut self"); this.actions.add(new CutSelfHandler(this));
+	};
 	
-	public Sword(String name, int damage) {
-		this.name = name; this.damage = damage;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public Sword(Game game, String name, int damage) {
+		this.game = game; this.name = name; this.damage = damage;
+		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
+		this.actionDescriptions.add("cut self"); this.actions.add(new CutSelfHandler(this));
 	}
 
 	public int getDamage() {
@@ -32,23 +31,19 @@ public class Sword extends Item{
 		this.damage = damage;
 	}
 
-	public List<String> getActions() {
-		return actions;
+	public class CutSelfHandler implements ActionListener {
+		
+		Sword sword;
+		
+		public CutSelfHandler(Sword sword) {
+			this.sword = sword;
+		}
+		
+		public void actionPerformed(ActionEvent action) {
+			game.player.setHealth(game.player.getHealth() - sword.damage);
+			System.out.println(game.player.getHealth());
+			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
+			game.createInitialChoices();
+		}
 	}
-
-	public void setActions(List<String> actions) {
-		this.actions = actions;
-	}
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
-	}
-
-	public String toString() {
-		return "\n\t[name=" + name + ", damage=" + damage + "]";
-	};
 }

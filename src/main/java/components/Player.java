@@ -1,20 +1,23 @@
 package components;
 
+import adventure.Game;
 import items.*;
 
 public class Player {
+	public Game game;
 	private String name;
 	private int totalHealth;
 	private int health;
 	private Inventory inventory;
 	private Location location;
 	
-	public Player(String name) {
-		this.name = name;
+	public Player(Game game) {
+		this.game = game;
 		this.totalHealth = 50;
 		this.health = 50;
 		this.inventory = new Inventory();
-		this.inventory.addItem(new Sword("rusty sword", 5));
+		this.inventory.addItem(new Sword(this.game, "rusty sword", 5));
+		this.inventory.addItem(new Sword(this.game, "straight sword", 15));
 		this.location = null;
 	}
 

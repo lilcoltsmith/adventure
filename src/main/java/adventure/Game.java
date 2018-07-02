@@ -16,6 +16,8 @@ import javax.swing.UIManager;
 
 import components.Player;
 import components.Exit;
+import components.Inventory;
+import components.Item;
 import util.GameHandler;
 
 public class Game {
@@ -28,6 +30,7 @@ public class Game {
 	// pages
 	public int navPage = 0;
 	public int actionPage = 0;
+	public int inventoryPage = 0;
 	// window elements
 	public JFrame window;
 	public Container container;
@@ -41,7 +44,7 @@ public class Game {
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
 		
-	public Game(Map map) {
+	public Game() {
 		
 		try {
 		    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
@@ -50,6 +53,7 @@ public class Game {
 		 }
 		this.map = new Map(this);
 		this.handler = new GameHandler(this);
+		player = new Player(this);
 		titleScreen();
 
 	}
@@ -74,7 +78,6 @@ public class Game {
 	}
 	
 	public void createGameScreen() {
-		player = new Player("Colton");
 		player.setLocation(map.awakening);
 		titleNamePanel.setVisible(false);
 		startButtonPanel.setVisible(false);
@@ -140,7 +143,7 @@ public class Game {
 		navPage = 0; actionPage = 0;
 		choice0.setText("Navigate"); choice0.addActionListener(handler.navHandler);
 		choice1.setText("Actions"); choice1.addActionListener(handler.actionHandler);
-		choice2.setText("--");
+		choice2.setText("Inventory"); choice2.addActionListener(handler.inventoryHandler);
 		choice3.setText("--");
 	}
 	
@@ -204,9 +207,19 @@ public class Game {
 		return choice;
 	}
 	
-	public void createActions(int page) {
-		List<String> actionDescriptions = player.getLocation().getActionDescriptions();
-		List<ActionListener> actions = player.getLocation().getActions();
+	public void createActions(int page, String type, int itemIndex) {
+		List<String> actionDescriptions;
+		List<ActionListener> actions;
+		if(type.equals("general")) {
+			actionDescriptions = player.getLocation().getActionDescriptions();
+			actions = player.getLocation().getActions();
+		}
+		else {
+			List<Item> items = player.getInventory().getInventory();
+			actionDescriptions = items.get(itemIndex).getActionDescriptions();
+			actions = items.get(itemIndex).getActions();
+			System.out.println(actionDescriptions);
+		}
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
 		
 		removeChoiceActionListeners();
@@ -231,6 +244,33 @@ public class Game {
 		}
 	}
 	
+	public void createInventory(int page) {
+		Inventory inventory = player.getInventory();
+		List<Item> items = inventory.getInventory();
+		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
+		
+		removeChoiceActionListeners();
+		menuState = "inventory";
+		if(inventory != null) {
+			if(one >=0 && one <= items.size()-1) {
+				choice0.setText(items.get(one).getName()); choice0.setActionCommand(Integer.toString(one)); choice0.addActionListener(handler.itemHandler);
+			}
+			else choice0.setText("--");
+			if(two >=0 && two <= items.size()-1) {
+				choice1.setText(items.get(two).getName()); choice1.setActionCommand(Integer.toString(two)); choice1.addActionListener(handler.itemHandler);
+			}
+			else choice1.setText("--");
+			if(three >=0 && three <= items.size()-1) {
+				choice2.setText(items.get(three).getName()); choice2.setActionCommand(Integer.toString(three)); choice2.addActionListener(handler.itemHandler);
+			}
+			else choice2.setText("--");
+			if(four >=0 && four <= items.size()-1) {
+				choice3.setText(items.get(four).getName()); choice3.setActionCommand(Integer.toString(four)); choice3.addActionListener(handler.itemHandler);
+			}
+			else choice3.setText("--");
+		}
+	}
+	
 	public void addChoices() {
 		choicePanel.add(choice0);
 		choicePanel.add(choice1);
@@ -247,16 +287,16 @@ public class Game {
 	
 	public void removeChoiceActionListeners() {
 		for(ActionListener l : choice0.getActionListeners()) {
-			choice0.removeActionListener(l);
+			choice0.removeActionListener(l); choice0.setActionCommand(null);
 		}
 		for(ActionListener l : choice1.getActionListeners()) {
-			choice1.removeActionListener(l);
+			choice1.removeActionListener(l); choice1.setActionCommand(null);
 		}
 		for(ActionListener l : choice2.getActionListeners()) {
-			choice2.removeActionListener(l);
+			choice2.removeActionListener(l); choice2.setActionCommand(null);
 		}
 		for(ActionListener l : choice3.getActionListeners()) {
-			choice3.removeActionListener(l);
+			choice3.removeActionListener(l); choice3.setActionCommand(null);
 		}
 	}
 	

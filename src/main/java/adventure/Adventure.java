@@ -6,6 +6,6 @@ public class Adventure {
 	public static Map map;
 	
 	public static void main(String[] args) {
-		game = new Game(map);
+		game = new Game();
 	}
 }
