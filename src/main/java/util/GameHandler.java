@@ -16,6 +16,7 @@ public class GameHandler {
 	public ActionHandler actionHandler = new ActionHandler();
 	public InventoryHandler inventoryHandler = new InventoryHandler();
 	public ItemHandler itemHandler = new ItemHandler();
+	public MapHandler mapHandler = new MapHandler();
 	public BackHandler backHandler = new BackHandler();
 	public NextHandler nextHandler = new NextHandler();
 	public PreviousHandler prevHandler = new PreviousHandler();
@@ -59,13 +60,25 @@ public class GameHandler {
 	
 	public class ItemHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			System.out.println(action.getActionCommand());
 			game.createActions(game.actionPage, "item", Integer.parseInt(action.getActionCommand()));
+		}
+	}
+	
+	public class MapHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			List<Exit> exits = game.player.getLocation().getExits();
+			String exitStr = "";
+			for(Exit e : exits) {
+				exitStr += e.getDirectionName() + ": " + e.getLeadsTo().getName() + "\n";
+			}
+			game.mainTextArea.setText(exitStr);
+			game.createInitialChoices();
 		}
 	}
 	
 	public class BackHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
+			game.mainTextArea.setText(game.player.getLocation().getDescription());
 			game.createInitialChoices();
 		}
 	}

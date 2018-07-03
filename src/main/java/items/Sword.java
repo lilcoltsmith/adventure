@@ -41,7 +41,6 @@ public class Sword extends Item{
 		
 		public void actionPerformed(ActionEvent action) {
 			game.player.setHealth(game.player.getHealth() - sword.damage);
-			System.out.println(game.player.getHealth());
 			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
 			game.createInitialChoices();
 		}

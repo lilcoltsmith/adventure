@@ -28,7 +28,6 @@ public class Awakening extends Location {
 	public class CutSelfHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			game.player.setHealth(game.player.getHealth() - 5);
-			System.out.println(game.player.getHealth());
 			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
 			game.createInitialChoices();
 		}
@@ -37,7 +36,6 @@ public class Awakening extends Location {
 	public class CutSelfHandler1 implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			game.player.setHealth(game.player.getHealth() - 10);
-			System.out.println(game.player.getHealth());
 			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
 			game.createInitialChoices();
 		}
@@ -46,7 +44,6 @@ public class Awakening extends Location {
 	public class CutSelfHandler2 implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			game.player.setHealth(game.player.getHealth() - 15);
-			System.out.println(game.player.getHealth());
 			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
 			game.createInitialChoices();
 		}
@@ -55,7 +52,6 @@ public class Awakening extends Location {
 	public class CutSelfHandler3 implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			game.player.setHealth(game.player.getHealth() - 20);
-			System.out.println(game.player.getHealth());
 			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
 			game.createInitialChoices();
 		}
@@ -64,7 +60,6 @@ public class Awakening extends Location {
 	public class CutSelfHandler4 implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			game.player.setHealth(game.player.getHealth() - 25);
-			System.out.println(game.player.getHealth());
 			game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
 			game.createInitialChoices();
 		}

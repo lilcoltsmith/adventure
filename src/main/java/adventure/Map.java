@@ -25,6 +25,14 @@ public class Map {
 		northField = new North_Field(game, "North Field", "You are north of the monolith.");
 		awakening.exits.add(new Exit(1, northField));
 		northField.exits.add(new Exit(2, awakening));
+		
+		northField = new North_Field(game, "North Field", "You are north of the monolith.");
+		awakening.exits.add(new Exit(1, northField));
+		northField.exits.add(new Exit(2, awakening));
+		northField = new North_Field(game, "North Field", "You are north of the monolith.");
+		awakening.exits.add(new Exit(1, northField));
+		northField.exits.add(new Exit(2, awakening));
+		
 		// south forest
 		southForest = new South_Forest(game, "SouthForest", "You are south of the monolith");
 		awakening.exits.add(new Exit(2, southForest));

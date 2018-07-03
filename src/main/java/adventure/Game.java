@@ -2,22 +2,27 @@ package adventure;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
 import components.Player;
 import components.Exit;
 import components.Inventory;
 import components.Item;
+import components.Location;
 import util.GameHandler;
 
 public class Game {
@@ -38,7 +43,8 @@ public class Game {
 	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
 	public JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
-	public JTextArea mainTextArea;
+	public JTextArea mainTextArea; //Contains 7 lines of text
+	public JScrollPane scroll;
 	// fonts
 	public Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
@@ -104,7 +110,13 @@ public class Game {
 	public void createMainText() {
 		mainTextPanel = createPanel(100, 100, 600, 250, Color.black);
 		mainTextArea = createTextArea(100, 100, 600, 250, player.getLocation().getDescription(), Color.black, Color.white, normalFont);
-		mainTextPanel.add(mainTextArea);
+		scroll = new JScrollPane(mainTextArea);
+		scroll.setPreferredSize(new Dimension(600, 245));
+		scroll.setBorder(BorderFactory.createEmptyBorder());
+		scroll.setBackground(Color.black);
+		scroll.setForeground(Color.white);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		mainTextPanel.add(scroll);
 		container.add(mainTextPanel);
 	}
 	
@@ -144,7 +156,7 @@ public class Game {
 		choice0.setText("Navigate"); choice0.addActionListener(handler.navHandler);
 		choice1.setText("Actions"); choice1.addActionListener(handler.actionHandler);
 		choice2.setText("Inventory"); choice2.addActionListener(handler.inventoryHandler);
-		choice3.setText("--");
+		choice3.setText("Map"); choice3.addActionListener(handler.mapHandler);
 	}
 	
 	public void createNavigation(int page) {	
@@ -218,7 +230,6 @@ public class Game {
 			List<Item> items = player.getInventory().getInventory();
 			actionDescriptions = items.get(itemIndex).getActionDescriptions();
 			actions = items.get(itemIndex).getActions();
-			System.out.println(actionDescriptions);
 		}
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
 		
@@ -300,6 +311,10 @@ public class Game {
 		}
 	}
 	
+	public void printExit(Location location, int index) {
+		
+	}
+	
 	public JPanel createPanel(int x, int y, int width, int height, Color color) {
 		JPanel panel = new JPanel();
 		panel.setBounds(x, y, width, height);
@@ -340,6 +355,7 @@ public class Game {
 		textArea.setForeground(foreground);
 		textArea.setFont(font);
 		textArea.setLineWrap(true);
+		textArea.setEditable(false);
 		return textArea;
 	}
 }

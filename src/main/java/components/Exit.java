@@ -112,4 +112,13 @@ public class Exit {
 	public void setShortDirectionName(String shortDirectionName) {
 		this.shortDirectionName = shortDirectionName;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Exit [leadsTo=" + leadsTo + ", direction=" + direction + ", directionName=" + directionName
+				+ "]";
+	}
+	
+	
 }
