@@ -29,7 +29,6 @@ public class GameHandler {
 	public OutHandler oHandler = new OutHandler();
 	public UpHandler uHandler = new UpHandler();
 	public DownHandler dHandler = new DownHandler();
-	public TestHandler testHandler = new TestHandler();
 	
 	public GameHandler(Game game) {
 		this.game = game;
