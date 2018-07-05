@@ -39,6 +39,8 @@ public class Goblin extends NPC {
 			health -= 5;
 			game.mainTextArea.setText("goblin: " + health + "/" + totalHealth + "\n");
 			int randomDamage = new Random().nextInt(damage);
+			game.mainTextArea.setText(game.mainTextArea.getText() + "The goblin hits you for " + randomDamage 
+					+ " damage\n");
 			game.updateHealth(-randomDamage);
 		}
 	}

@@ -18,6 +18,7 @@ public class Player {
 		this.inventory = new Inventory();
 		this.inventory.addItem(new Sword(this.game, "rusty sword", 5));
 		this.inventory.addItem(new Sword(this.game, "straight sword", 15));
+		this.inventory.addItem(new Potion(this.game, "health potion", "health", 10));
 		this.location = null;
 	}
 
