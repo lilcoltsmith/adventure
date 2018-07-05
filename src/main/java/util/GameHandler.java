@@ -16,6 +16,7 @@ public class GameHandler {
 	public ActionHandler actionHandler = new ActionHandler();
 	public InventoryHandler inventoryHandler = new InventoryHandler();
 	public ItemHandler itemHandler = new ItemHandler();
+	public NpcHandler npcHandler = new NpcHandler();
 	public MapHandler mapHandler = new MapHandler();
 	public BackHandler backHandler = new BackHandler();
 	public NextHandler nextHandler = new NextHandler();
@@ -64,6 +65,12 @@ public class GameHandler {
 		}
 	}
 	
+	public class NpcHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			game.createActions(game.npcPage, "npc", 0);
+		}
+	}
+	
 	public class MapHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			List<Exit> exits = game.player.getLocation().getExits();
@@ -94,6 +101,8 @@ public class GameHandler {
 					game.actionPage++; game.createActions(game.actionPage, "genera", 0); break;
 				case "inventory":
 					game.inventoryPage++; game.createInventory(game.inventoryPage); break;
+				case "npc":
+					game.npcPage++; game.createInventory(game.npcPage); break;
 			}
 		}
 	}
@@ -107,137 +116,59 @@ public class GameHandler {
 				game.navPage--; game.createNavigation(game.navPage); break;
 			case "action":
 				game.actionPage--; game.createActions(game.actionPage, "general", 0); break;
+			case "inventory":
+				game.inventoryPage--; game.createInventory(game.inventoryPage); break;
+			case "npc":
+				game.npcPage--; game.createActions(game.npcPage, "npc", 0); break;
 		}
 		}
 	}
 	
 	public class NorthHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("NORTH")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("NORTH");
 		}
 	}
 	
 	public class SouthHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("SOUTH")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("SOUTH");
 		}
 	}
 	
 	public class EastHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("EAST")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("EAST");
 		}
 	}
 	
 	public class WestHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("WEST")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("WEST");
 		}
 	}
 	
 	public class InHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("IN")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("IN");
 		}
 	}
 	
 	public class OutHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("OUT")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("OUT");
 		}
 	}
 	
 	public class UpHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("UP")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
+			game.updateLocation("UP");
 		}
 	}
 	
 	public class DownHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			List<Exit> exits = game.player.getLocation().getExits();
-			for(int i = 0; i < exits.size(); i++) {
-				if(exits.get(i).getDirectionName().equals("DOWN")) {
-					game.player.setLocation(game.player.getLocation().getExits().get(i).getLeadsTo());
-					game.locationLabelName.setText(game.player.getLocationName());
-					game.mainTextArea.setText(game.player.getLocation().getDescription());
-					game.createInitialChoices();
-				}
-			}
-		}
-	}
-	
-	public class TestHandler implements ActionListener {
-		public void actionPerformed(ActionEvent action) {
-			String choice = action.getActionCommand();
-			switch(choice) {
-				case "cut self":
-					game.player.setHealth(game.player.getHealth() - 5);
-					System.out.println(game.player.getHealth());
-					game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
-					break;
-				case "jump":
-					game.player.setHealth(0);
-					game.hpLabelNumber.setText(Integer.toString(game.player.getHealth()));
-					break;
-			}
-			game.createInitialChoices();
+			game.updateLocation("DOWN");
 		}
 	}
 }

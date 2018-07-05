@@ -9,6 +9,7 @@ public abstract class Location {
 	public String description;
 	public List<String> actionDescriptions;
 	public List<ActionListener> actions;
+	public NPC npc;
 	public List<Exit> exits;
 	
 	public Location(String name) {
@@ -65,6 +66,14 @@ public abstract class Location {
 
 	public void setActions(List<ActionListener> actions) {
 		this.actions = actions;
+	}
+	
+	public NPC getNPC() {
+		return npc;
+	}
+	
+	public void setNPC(NPC npc) {
+		this.npc = npc;
 	}
 
 	public List<Exit> getExits() {

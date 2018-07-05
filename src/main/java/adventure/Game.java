@@ -22,7 +22,6 @@ import components.Player;
 import components.Exit;
 import components.Inventory;
 import components.Item;
-import components.Location;
 import util.GameHandler;
 
 public class Game {
@@ -36,6 +35,7 @@ public class Game {
 	public int navPage = 0;
 	public int actionPage = 0;
 	public int inventoryPage = 0;
+	public int npcPage = 0;
 	// window elements
 	public JFrame window;
 	public Container container;
@@ -142,7 +142,7 @@ public class Game {
 		subChoice0 = createButton("Back", handler.backHandler);
 		subChoice1 = createButton("<<", handler.prevHandler);
 		subChoice2 = createButton(">>", handler.nextHandler);
-		subChoice3 = createButton("--", null);
+		subChoice3 = createButton("Map", handler.mapHandler);
 		
 		addSubChoices();
 		
@@ -152,11 +152,16 @@ public class Game {
 	public void createInitialChoices() {
 		removeChoiceActionListeners();
 		menuState = "main";
-		navPage = 0; actionPage = 0;
+		navPage = 0; actionPage = 0; inventoryPage = 0; npcPage = 0;
 		choice0.setText("Navigate"); choice0.addActionListener(handler.navHandler);
 		choice1.setText("Actions"); choice1.addActionListener(handler.actionHandler);
 		choice2.setText("Inventory"); choice2.addActionListener(handler.inventoryHandler);
-		choice3.setText("Map"); choice3.addActionListener(handler.mapHandler);
+		if(player.getLocation().getNPC() != null) {
+			choice3.setText(player.getLocation().getNPC().getName()); choice3.addActionListener(handler.npcHandler);
+		}
+		else {
+			choice3.setText("--");
+		}
 	}
 	
 	public void createNavigation(int page) {	
@@ -226,10 +231,14 @@ public class Game {
 			actionDescriptions = player.getLocation().getActionDescriptions();
 			actions = player.getLocation().getActions();
 		}
-		else {
+		else if(type.equals("item")){
 			List<Item> items = player.getInventory().getInventory();
 			actionDescriptions = items.get(itemIndex).getActionDescriptions();
 			actions = items.get(itemIndex).getActions();
+		}
+		else {
+			actionDescriptions = player.getLocation().getNPC().getActionDescriptions();
+			actions = player.getLocation().getNPC().getActions();
 		}
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
 		
@@ -311,8 +320,22 @@ public class Game {
 		}
 	}
 	
-	public void printExit(Location location, int index) {
-		
+	public void updateHealth(int healthUpdate) {
+		int updatedHealth = player.getHealth() + healthUpdate;
+		player.setHealth(updatedHealth);
+		hpLabelNumber.setText(Integer.toString(player.getHealth()));
+	}
+	
+	public void updateLocation(String direction) {
+		List<Exit> exits = player.getLocation().getExits();
+		for(int i = 0; i < exits.size(); i++) {
+			if(exits.get(i).getDirectionName().equals(direction)) {
+				player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
+				locationLabelName.setText(player.getLocationName());
+				mainTextArea.setText(player.getLocation().getDescription());
+				createInitialChoices();
+			}
+		}
 	}
 	
 	public JPanel createPanel(int x, int y, int width, int height, Color color) {
