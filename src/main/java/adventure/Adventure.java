@@ -16,6 +16,20 @@ public class Adventure {
 	public static Map map;
 	public static JFrame window;
 	
+	public static JButton createResolutionButton(JFrame frame, JFrame window, int width, int height) {
+		JButton btn = new JButton("Windowed: " + width + "x" + height);
+	    btn.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	frame.setVisible(false);
+	            window.setSize(width, height);
+	            window.setVisible(true);
+	            game = new Game(window);
+	        }
+	    });
+		return btn;
+	}
+	
 	public static void main(String[] args) {
 		
 		final JFrame frame = new JFrame("Display Mode");
@@ -34,45 +48,16 @@ public class Adventure {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	frame.setVisible(false);
-//	            device.setFullScreenWindow(window);
 	        	window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	    		window.setUndecorated(true);
 	            window.setVisible(true);
 	            game = new Game(window);
 	        }
 	    });
-	    JButton btn2 = new JButton("Windowed: 800x600");
-	    btn2.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	        	frame.setVisible(false);
-	            window.setSize(800, 600);
-	            window.setVisible(true);
-	            game = new Game(window);
-	        }
-	    });
 	    
-	    JButton btn3 = new JButton("Windowed: 1280x720");
-	    btn3.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	        	frame.setVisible(false);
-	            window.setSize(1280, 720);
-	            window.setVisible(true);
-	            game = new Game(window);
-	        }
-	    });
-	    
-	    JButton btn4 = new JButton("Windowed: 1920x1080");
-	    btn4.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	        	frame.setVisible(false);
-	            window.setSize(1920, 1080);
-	            window.setVisible(true);
-	            game = new Game(window);
-	        }
-	    });
+	    JButton btn2 = createResolutionButton(frame, window, 800, 600);
+	    JButton btn3 = createResolutionButton(frame, window, 1280, 720);
+	    JButton btn4 = createResolutionButton(frame, window, 1920, 1080);
 
 	    JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    panel.add(btn1);
