@@ -68,7 +68,5 @@ public class Adventure {
 
 	    frame.pack();
 	    frame.setVisible(true);
-		
-		//game = new Game(window);
 	}
 }
