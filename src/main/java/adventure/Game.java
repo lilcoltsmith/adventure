@@ -41,7 +41,7 @@ public class Game {
 	// window elements
 	public JFrame window;
 	public Container container;
-	public int windowX, windowY;
+	public int width, height;
 	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
 	public JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
@@ -52,14 +52,14 @@ public class Game {
 	public Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
 		
-	public Game() {
+	public Game(JFrame window) {
 		
 		try {
 		    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
 		 } catch (Exception e) {
 		            e.printStackTrace();
 		 }
-		
+		this.window = window;
 		this.handler = new GameHandler(this);
 		resetGame();
 	}
@@ -71,16 +71,11 @@ public class Game {
 	}
 	
 	public void titleScreen() {
-		window = new JFrame();
-		windowX = 800; windowY = 600;
-		window.setSize(windowX, windowY);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.getContentPane().setBackground(Color.black);
-		window.setLayout(null);
+		width = window.getWidth(); height = window.getHeight();
 		container = window.getContentPane();
-		titleNamePanel = createPanel(100, 100, 600, 150, Color.black);
+		titleNamePanel = createPanel((width/2)-300, 100, 600, 150, Color.black);
 		titleNameLabel = createLabel("ADVENTURE", Color.white, titleFont);
-		startButtonPanel = createPanel(300, 400, 200, 100, Color.black);
+		startButtonPanel = createPanel((width/2)-100, (height - 200), 200, 100, Color.black);
 		startButton = createButton("START", handler.tsHandler);
 		titleNamePanel.add(titleNameLabel);
 		startButtonPanel.add(startButton);
@@ -100,7 +95,7 @@ public class Game {
 	}
 	
 	public void createHud() {
-		hudPanel = createPanel(100, 15, 600, 50, Color.black);
+		hudPanel = createPanel((width/2)-((width-200)/2), 15, (width-200), 50, Color.black);
 		hudPanel.setLayout(new GridLayout(1, 4));
 		hpLabel = createLabel("HP:", Color.white, smallFont);
 		hpLabelNumber = createLabel(Integer.toString(player.getHealth()), Color.white, smallFont);
@@ -114,10 +109,11 @@ public class Game {
 	}
 	
 	public void createMainText() {
-		mainTextPanel = createPanel(100, 100, 600, 250, Color.black);
-		mainTextArea = createTextArea(100, 100, 600, 250, player.getLocation().getDescription(), Color.black, Color.white, normalFont);
+		mainTextPanel = createPanel((width/2)-((width-200)/2), 100, (width-200), 250, Color.black);
+		mainTextArea = createTextArea((width/2)-((width-200)/2), 100, (width-200), 250, 
+				player.getLocation().getDescription(), Color.black, Color.white, normalFont);
 		scroll = new JScrollPane(mainTextArea);
-		scroll.setPreferredSize(new Dimension(600, 245));
+		scroll.setPreferredSize(new Dimension((width-200), 245));
 		scroll.setBorder(BorderFactory.createEmptyBorder());
 		scroll.setBackground(Color.black);
 		scroll.setForeground(Color.white);
@@ -127,7 +123,7 @@ public class Game {
 	}
 	
 	public void createChoices() {
-		choicePanel = createPanel(100, 350, 600, 150, Color.black);
+		choicePanel = createPanel((width/2)-((width-200)/2), height - 250, (width-200), 150, Color.black);
 		choicePanel.setLayout(new GridLayout(4,1));
 		
 		choice0 = createButton("--", null);
@@ -142,7 +138,7 @@ public class Game {
 	}
 	
 	public void createSubChoices() {
-		subChoicePanel = createPanel(100, 500, 600, 50, Color.black);
+		subChoicePanel = createPanel((width/2)-((width-200)/2), height - 100, (width-200), 40, Color.black);
 		subChoicePanel.setLayout(new GridLayout(1,4));
 		
 		subChoice0 = createButton("Back", handler.backHandler);
