@@ -15,6 +15,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 Simply import project into your favorite Java IDE. See next section for build tools.
 
+To build an executable JAR, simply run:
+
+```
+mvn clean install
+```
+
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
