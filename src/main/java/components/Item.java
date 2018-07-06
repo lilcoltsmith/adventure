@@ -7,6 +7,7 @@ public abstract class Item {
 	public String name;
 	public List<String> actionDescriptions;
 	public List<ActionListener> actions;
+	public String type;
 	public String info;
 	
 	public String getName() {

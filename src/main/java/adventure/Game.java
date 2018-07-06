@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import components.Player;
 import components.Exit;
 import components.Inventory;
 import components.Item;
+import components.NPC;
 import util.GameHandler;
 
 public class Game {
@@ -364,6 +366,40 @@ public class Game {
 				createInitialChoices();
 			}
 		}
+	}
+	
+	public void attackEnemy(NPC npc) {
+		int playerDamage;
+		if(player.getEquipment().getRightHand() == null) {
+			playerDamage = new Random().nextInt(5);
+		}
+		else {
+			playerDamage = new Random().nextInt(player.getEquipment().rightHand.getDamage());
+		}
+		if(npc.health <= playerDamage) {
+			kill(npc);
+		}
+		else {
+			npc.health -= playerDamage;
+			mainTextArea.setText(npc.name + ": " + npc.health + "/" + npc.totalHealth + "\n");
+			mainTextArea.setText(mainTextArea.getText() + "You hit the " + npc.name + " for " + playerDamage 
+					+ " damage\n");
+			int randomDamage = new Random().nextInt(npc.damage);
+			mainTextArea.setText(mainTextArea.getText() + "The " + npc.name + " hits you for " + randomDamage 
+					+ " damage\n");
+			updateHealth(-randomDamage);
+		}
+	}
+	
+	public void kill(NPC npc) {
+		String message = "";
+		for(Item i : npc.inventory.getInventory()) {
+			message += i.name + "\n";
+		}
+		mainTextArea.setText("You killed the " + npc.name + "! It dropped: \n" + message);
+		player.getLocation().addItems(npc.inventory.getInventory());
+		player.getLocation().removeNPC(npc);
+		createInitialChoices();
 	}
 	
 	public void playerDead() {

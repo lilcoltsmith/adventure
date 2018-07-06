@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adventure.Game;
-import npc.Goblin;
 
 public abstract class Location {
 	public Game game;
@@ -96,7 +95,7 @@ public abstract class Location {
 		this.npc = npc;
 	}
 	
-	public void removeNPC(Goblin goblin) {
+	public void removeNPC(NPC npc) {
 		this.npc = null;
 	}
 

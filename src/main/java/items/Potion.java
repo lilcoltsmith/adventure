@@ -9,7 +9,6 @@ import components.Item;
 
 public class Potion extends Item {
 	public Game game;
-	public String type;
 	public int restore;
 	
 	public Potion(Game game, String type, int restore) {

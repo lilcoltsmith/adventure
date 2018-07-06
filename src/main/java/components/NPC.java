@@ -1,26 +1,31 @@
 package components;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
+import adventure.Game;
+
 public abstract class NPC {
+	public Game game;
 	public String name;
 	public int damage;
+	public int health;
+	public int totalHealth;
 	public Inventory inventory;
 	public List<String> actionDescriptions;
 	public List<ActionListener> actions;
 	
-	public NPC(String name) {
-		this.name = name; this.damage = 5; this.inventory = new Inventory();
-		this.actionDescriptions = new ArrayList<String>();
-		this.actions = new ArrayList<ActionListener>();
-	}
-	
-	public NPC(String name, int damage) {
-		this.name = name; this.damage = damage; this.inventory = new Inventory();
-		this.actionDescriptions = new ArrayList<String>();
-		this.actions = new ArrayList<ActionListener>();
+	public void kill() {
+		String message = "";
+		message += "You killed the goblin! It dropped: \n";
+		List<Item> items = this.inventory.getInventory();
+		for(Item item : items) {
+			message += item.name + "\n";
+		}
+		game.mainTextArea.setText(message);
+		game.player.getLocation().addItems(this.inventory.getInventory());
+		game.player.getLocation().removeNPC(this);
+		game.createInitialChoices();
 	}
 
 	public String getName() {

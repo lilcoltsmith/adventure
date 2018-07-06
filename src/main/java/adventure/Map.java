@@ -23,7 +23,7 @@ public class Map {
 		awakening = new Awakening(game, "Awakening", "Before you is a monolithic shrine to Zork...");
 		
 		//npc
-		awakening.setNPC(new Goblin(game, "goblin", 5));
+		awakening.setNPC(new Goblin(game, "goblin", 5, 50));
 		// north field
 		northField = new North_Field(game, "North Field", "You are north of the monolith.");
 		awakening.exits.add(new Exit(1, northField));
