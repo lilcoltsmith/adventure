@@ -7,12 +7,9 @@ import adventure.Game;
 import components.Location;
 
 public class North_Field extends Location {
-
-	private Game game;
 	
 	public North_Field(Game game, String name, String description) {
-		super(name, description);
-		this.game = game;
+		super(game, name, description);
 	}
 	
 	public class Action0 implements ActionListener {

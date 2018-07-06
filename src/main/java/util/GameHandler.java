@@ -12,6 +12,7 @@ public class GameHandler {
 	private Game game;
 	
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
+	public ResetHandler resetHandler = new ResetHandler();
 	public NavigationHandler navHandler = new NavigationHandler();
 	public ActionHandler actionHandler = new ActionHandler();
 	public InventoryHandler inventoryHandler = new InventoryHandler();
@@ -37,6 +38,12 @@ public class GameHandler {
 	public class TitleScreenHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			game.createGameScreen();
+		}
+	}
+	
+	public class ResetHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			game.resetGame();
 		}
 	}
 	
@@ -97,11 +104,11 @@ public class GameHandler {
 				case "nav":
 					game.navPage++; game.createNavigation(game.navPage); break;
 				case "action":
-					game.actionPage++; game.createActions(game.actionPage, "genera", 0); break;
+					game.actionPage++; game.createActions(game.actionPage, "general", 0); break;
 				case "inventory":
 					game.inventoryPage++; game.createInventory(game.inventoryPage); break;
 				case "npc":
-					game.npcPage++; game.createInventory(game.npcPage); break;
+					game.npcPage++; game.createActions(game.npcPage, "npc", 0); break;
 			}
 		}
 	}

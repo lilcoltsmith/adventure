@@ -9,6 +9,7 @@ public class Player {
 	private int totalHealth;
 	private int health;
 	private Inventory inventory;
+	private Equipment equipment;
 	private Location location;
 	
 	public Player(Game game) {
@@ -16,8 +17,13 @@ public class Player {
 		this.totalHealth = 50;
 		this.health = 50;
 		this.inventory = new Inventory();
-		this.inventory.addItem(new Sword(this.game, "rusty sword", 5));
-		this.inventory.addItem(new Sword(this.game, "straight sword", 15));
+		this.inventory.addItem(new Weapon(this.game, "rusty sword", "rightHand", 5));
+		this.inventory.addItem(new Weapon(this.game, "straight sword", "rightHand", 15));
+		this.inventory.addItem(new Armor(this.game, "bronze helmet", "head", 15));
+		this.inventory.addItem(new Armor(this.game, "bronze chestplate", "chest", 15));
+		this.inventory.addItem(new Armor(this.game, "bronze platelegs", "legs", 15));
+		this.inventory.addItem(new Potion(this.game, "health potion", "health", 10));
+		this.equipment = new Equipment(inventory);
 		this.location = null;
 	}
 
@@ -51,6 +57,14 @@ public class Player {
 
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
+	}
+
+	public Equipment getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
 	}
 
 	public Location getLocation() {

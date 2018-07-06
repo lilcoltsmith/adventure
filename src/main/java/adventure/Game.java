@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import components.Player;
 import components.Exit;
 import components.Inventory;
 import components.Item;
+import components.NPC;
 import util.GameHandler;
 
 public class Game {
@@ -57,11 +59,15 @@ public class Game {
 		 } catch (Exception e) {
 		            e.printStackTrace();
 		 }
-		this.map = new Map(this);
+		
 		this.handler = new GameHandler(this);
-		player = new Player(this);
+		resetGame();
+	}
+	
+	public void resetGame() {
+		this.map = new Map(this);
+		this.player = new Player(this);
 		titleScreen();
-
 	}
 	
 	public void titleScreen() {
@@ -307,22 +313,46 @@ public class Game {
 	
 	public void removeChoiceActionListeners() {
 		for(ActionListener l : choice0.getActionListeners()) {
-			choice0.removeActionListener(l); choice0.setActionCommand(null);
+			choice0.setText("--"); choice0.removeActionListener(l); choice0.setActionCommand(null);
 		}
 		for(ActionListener l : choice1.getActionListeners()) {
-			choice1.removeActionListener(l); choice1.setActionCommand(null);
+			choice1.setText("--"); choice1.removeActionListener(l); choice1.setActionCommand(null);
 		}
 		for(ActionListener l : choice2.getActionListeners()) {
-			choice2.removeActionListener(l); choice2.setActionCommand(null);
+			choice2.setText("--"); choice2.removeActionListener(l); choice2.setActionCommand(null);
 		}
 		for(ActionListener l : choice3.getActionListeners()) {
-			choice3.removeActionListener(l); choice3.setActionCommand(null);
+			choice3.setText("--"); choice3.removeActionListener(l); choice3.setActionCommand(null);
+		}
+	}
+	
+	public void removeSubChoiceActionListeners() {
+		for(ActionListener l : subChoice0.getActionListeners()) {
+			subChoice0.setText("--"); subChoice0.removeActionListener(l); subChoice0.setActionCommand(null);
+		}
+		for(ActionListener l : subChoice1.getActionListeners()) {
+			subChoice1.setText("--"); subChoice1.removeActionListener(l); subChoice1.setActionCommand(null);
+		}
+		for(ActionListener l : subChoice2.getActionListeners()) {
+			subChoice2.setText("--"); subChoice2.removeActionListener(l); subChoice2.setActionCommand(null);
+		}
+		for(ActionListener l : subChoice3.getActionListeners()) {
+			subChoice3.setText("--"); subChoice3.removeActionListener(l); subChoice3.setActionCommand(null);
 		}
 	}
 	
 	public void updateHealth(int healthUpdate) {
 		int updatedHealth = player.getHealth() + healthUpdate;
-		player.setHealth(updatedHealth);
+		if(updatedHealth <= 0) {
+			player.setHealth(0);
+			playerDead();
+		}
+		else if(updatedHealth >= player.getTotalHealth()) {
+			player.setHealth(player.getTotalHealth());
+		}
+		else {
+			player.setHealth(updatedHealth);
+		}
 		hpLabelNumber.setText(Integer.toString(player.getHealth()));
 	}
 	
@@ -336,6 +366,47 @@ public class Game {
 				createInitialChoices();
 			}
 		}
+	}
+	
+	public void attackEnemy(NPC npc) {
+		int playerDamage;
+		if(player.getEquipment().getRightHand() == null) {
+			playerDamage = new Random().nextInt(5);
+		}
+		else {
+			playerDamage = new Random().nextInt(player.getEquipment().rightHand.getDamage());
+		}
+		if(npc.health <= playerDamage) {
+			kill(npc);
+		}
+		else {
+			npc.health -= playerDamage;
+			mainTextArea.setText(npc.name + ": " + npc.health + "/" + npc.totalHealth + "\n");
+			mainTextArea.setText(mainTextArea.getText() + "You hit the " + npc.name + " for " + playerDamage 
+					+ " damage\n");
+			int randomDamage = new Random().nextInt(npc.damage);
+			mainTextArea.setText(mainTextArea.getText() + "The " + npc.name + " hits you for " + randomDamage 
+					+ " damage\n");
+			updateHealth(-randomDamage);
+		}
+	}
+	
+	public void kill(NPC npc) {
+		String message = "";
+		for(Item i : npc.inventory.getInventory()) {
+			message += i.name + "\n";
+		}
+		mainTextArea.setText("You killed the " + npc.name + "! It dropped: \n" + message);
+		player.getLocation().addItems(npc.inventory.getInventory());
+		player.getLocation().removeNPC(npc);
+		createInitialChoices();
+	}
+	
+	public void playerDead() {
+		removeSubChoiceActionListeners();
+		removeChoiceActionListeners();
+		choice0.setText("RESET GAME"); choice0.addActionListener(handler.resetHandler);
+		mainTextArea.setText("YOU DIED");
 	}
 	
 	public JPanel createPanel(int x, int y, int width, int height, Color color) {
