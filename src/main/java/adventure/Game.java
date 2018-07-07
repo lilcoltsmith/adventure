@@ -29,6 +29,18 @@ import components.NPC;
 import util.GameHandler;
 
 public class Game {
+	// STATIC
+	public static int width, height;
+	// TITLE SCREEN
+	public static int TITLE_X;
+	public static int TITLE_Y = 100;
+	public static int TITLE_WIDTH = 600;
+	public static int TITLE_HEIGHT = 150;
+	public static int START_BUTTON_X;
+	public static int START_BUTTON_Y;
+	public static int START_BUTTON_WIDTH = 200;
+	public static int START_BUTTON_HEIGHT = 100;
+	
 	// player/map
 	public Player player;
 	public Map map;
@@ -43,7 +55,6 @@ public class Game {
 	// window elements
 	public JFrame window;
 	public Container container;
-	public int width, height;
 	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
 	public JProgressBar hpBar;
@@ -56,13 +67,18 @@ public class Game {
 	public Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
 		
 	public Game(JFrame window) {
-		
 		try {
 		    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
 		 } catch (Exception e) {
 		            e.printStackTrace();
 		 }
 		this.window = window;
+		width = this.window.getWidth(); height = this.window.getHeight();
+		
+		// SETTINGS
+		TITLE_X = (width/2) - TITLE_WIDTH/2;
+		START_BUTTON_X = (width/2)-START_BUTTON_WIDTH/2; START_BUTTON_Y = (height - 200);
+		
 		this.handler = new GameHandler(this);
 		resetGame();
 	}
@@ -76,9 +92,10 @@ public class Game {
 	public void titleScreen() {
 		width = window.getWidth(); height = window.getHeight();
 		container = window.getContentPane();
-		titleNamePanel = createPanel((width/2)-300, 100, 600, 150, Color.black);
+		titleNamePanel = createPanel(TITLE_X, TITLE_Y, TITLE_WIDTH, TITLE_HEIGHT, Color.black);
 		titleNameLabel = createLabel("ADVENTURE", Color.white, titleFont);
-		startButtonPanel = createPanel((width/2)-100, (height - 200), 200, 100, Color.black);
+		startButtonPanel = createPanel(START_BUTTON_X, START_BUTTON_Y, START_BUTTON_WIDTH, START_BUTTON_HEIGHT, 
+				Color.black);
 		startButton = createButton("START", handler.tsHandler);
 		titleNamePanel.add(titleNameLabel);
 		startButtonPanel.add(startButton);
