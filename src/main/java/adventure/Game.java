@@ -3,6 +3,7 @@ package adventure;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -44,6 +46,7 @@ public class Game {
 	public int width, height;
 	public JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
+	public JProgressBar hpBar;
 	public JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
 	public JTextArea mainTextArea; //Contains 7 lines of text
 	public JScrollPane scroll;
@@ -95,14 +98,16 @@ public class Game {
 	}
 	
 	public void createHud() {
-		hudPanel = createPanel((width/2)-((width-200)/2), 15, (width-200), 50, Color.black);
-		hudPanel.setLayout(new GridLayout(1, 4));
+		hudPanel = createPanel((width/2)-300, 15, 600, 50, Color.black);
+		hudPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 		hpLabel = createLabel("HP:", Color.white, smallFont);
+		hpBar = createProgressBar(true, Color.black, new Color(60, 0, 0));
+		hpBar.setPreferredSize(new Dimension(200, 25));
 		hpLabelNumber = createLabel(Integer.toString(player.getHealth()), Color.white, smallFont);
 		locationLabel = createLabel("Location:", Color.white, smallFont);
 		locationLabelName = createLabel(player.getLocationName(), Color.white, smallFont);
 		hudPanel.add(hpLabel);
-		hudPanel.add(hpLabelNumber);
+		hudPanel.add(hpBar);
 		hudPanel.add(locationLabel);
 		hudPanel.add(locationLabelName);		
 		container.add(hudPanel);
@@ -349,6 +354,8 @@ public class Game {
 		else {
 			player.setHealth(updatedHealth);
 		}
+		hpBar.setString(player.getHealth() + "/" + player.getTotalHealth());
+		hpBar.setValue(updatedHealth);
 		hpLabelNumber.setText(Integer.toString(player.getHealth()));
 	}
 	
@@ -417,6 +424,18 @@ public class Game {
 		label.setForeground(foreground);
 		label.setFont(font);
 		return label;
+	}
+	
+	public JProgressBar createProgressBar(boolean text, Color background, Color foreground) {
+		JProgressBar bar = new JProgressBar(0, player.getTotalHealth());
+		bar.setPreferredSize(new Dimension(50, 25));
+		bar.setBackground(background);
+		bar.setForeground(foreground);
+		bar.setFont(smallFont);
+		bar.setString(player.getHealth() + "/" + player.getTotalHealth());
+		bar.setStringPainted(text);
+		bar.setValue(player.getHealth());
+		return bar;
 	}
 	
 	public JLabel createLabel(String text, Color background, Color foreground, Font font) {
