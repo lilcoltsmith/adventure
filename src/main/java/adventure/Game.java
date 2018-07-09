@@ -101,8 +101,9 @@ public class Game {
 		 } catch (Exception e) {
 		            e.printStackTrace();
 		 }
-		
+				
 		// SETTINGS
+		width = window.getSize().width; height = window.getSize().height;
 		TITLE_X = (width/2) - TITLE_WIDTH/2;
 		START_BUTTON_X = (width/2)-START_BUTTON_WIDTH/2; START_BUTTON_Y = (height - 200);
 		HUD_X = (width/2)-HUD_WIDTH/2;
@@ -479,7 +480,6 @@ public class Game {
 		window.getContentPane().setBackground(Color.black);
 		window.setLayout(null);
 		window.setResizable(false);
-		window.setVisible(false);
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setUndecorated(true);
         window.setVisible(true);
@@ -492,7 +492,6 @@ public class Game {
 		window.getContentPane().setBackground(Color.black);
 		window.setLayout(null);
 		window.setResizable(false);
-		window.setVisible(false);
 		window.setSize(width, height);
         window.setVisible(true);
 		return window;

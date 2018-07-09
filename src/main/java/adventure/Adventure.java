@@ -19,7 +19,6 @@ public class Adventure {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	frame.setVisible(false);
-	        	Game.width = width; Game.height = height;
 	        	Game.window = Game.createWindow(width, height);
 	            new Game();
 	        }
