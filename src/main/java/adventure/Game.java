@@ -337,19 +337,23 @@ public class Game {
 		menuState = "inventory";
 		if(inventory != null) {
 			if(one >=0 && one <= items.size()-1) {
-				choice0.setText(items.get(one).getName()); choice0.setActionCommand(Integer.toString(one)); choice0.addActionListener(handler.itemHandler);
+				choice0.setText(items.get(one).getName()); choice0.setActionCommand(Integer.toString(one));
+				choice0.addActionListener(handler.itemHandler);
 			}
 			else choice0.setText("--");
 			if(two >=0 && two <= items.size()-1) {
-				choice1.setText(items.get(two).getName()); choice1.setActionCommand(Integer.toString(two)); choice1.addActionListener(handler.itemHandler);
+				choice1.setText(items.get(two).getName()); choice1.setActionCommand(Integer.toString(two));
+				choice1.addActionListener(handler.itemHandler);
 			}
 			else choice1.setText("--");
 			if(three >=0 && three <= items.size()-1) {
-				choice2.setText(items.get(three).getName()); choice2.setActionCommand(Integer.toString(three)); choice2.addActionListener(handler.itemHandler);
+				choice2.setText(items.get(three).getName()); choice2.setActionCommand(Integer.toString(three));
+				choice2.addActionListener(handler.itemHandler);
 			}
 			else choice2.setText("--");
 			if(four >=0 && four <= items.size()-1) {
-				choice3.setText(items.get(four).getName()); choice3.setActionCommand(Integer.toString(four)); choice3.addActionListener(handler.itemHandler);
+				choice3.setText(items.get(four).getName()); choice3.setActionCommand(Integer.toString(four));
+				choice3.addActionListener(handler.itemHandler);
 			}
 			else choice3.setText("--");
 		}
