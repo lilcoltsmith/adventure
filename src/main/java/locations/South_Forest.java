@@ -8,14 +8,13 @@ import components.Location;
 
 public class South_Forest extends Location {
 	
-	public South_Forest(Game game, String name, String description) {
-		super(game, name, description);
-		this.game = game;
+	public South_Forest(String name, String description) {
+		super(name, description);
 	}
 	
 	public class Action0 implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			game.player.setHealth(0);
+			Game.player.setHealth(0);
 		}
 	}
 

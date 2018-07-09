@@ -8,13 +8,13 @@ import components.Location;
 
 public class East_Field extends Location {
 	
-	public East_Field(Game game, String name, String description) {
-		super(game, name, description);
+	public East_Field(String name, String description) {
+		super(name, description);
 	}
 	
 	public class Action0 implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
-			game.player.setHealth(0);
+			Game.player.setHealth(0);
 		}
 	}
 

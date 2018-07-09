@@ -10,14 +10,12 @@ import components.NPC;
 import items.Potion;
 
 public class Goblin extends NPC {
-
-	public Game game;
 	
-	public Goblin(Game game, String name, int damage, int health) {
-		this.game = game; this.name = name; this.damage = damage;
+	public Goblin(String name, int damage, int health) {
+		this.name = name; this.damage = damage;
 		this.inventory = new Inventory();
 		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
-		this.inventory.addItem(new Potion(game, "goblin potion", "health", 5));
+		this.inventory.addItem(new Potion("goblin potion", "health", 5));
 		this.actionDescriptions.add("attack"); this.actions.add(new AttackHandler(this));
 		this.health = health; this.totalHealth = health;
 	}
@@ -31,7 +29,7 @@ public class Goblin extends NPC {
 		}
 		
 		public void actionPerformed(ActionEvent action) {
-			game.attackEnemy(npc);
+			Game.attackEnemy(npc);
 		}
 	}
 }

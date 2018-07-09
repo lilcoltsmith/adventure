@@ -6,7 +6,6 @@ import java.util.List;
 import adventure.Game;
 
 public abstract class NPC {
-	public Game game;
 	public String name;
 	public int damage;
 	public int health;
@@ -22,10 +21,10 @@ public abstract class NPC {
 		for(Item item : items) {
 			message += item.name + "\n";
 		}
-		game.mainTextArea.setText(message);
-		game.player.getLocation().addItems(this.inventory.getInventory());
-		game.player.getLocation().removeNPC(this);
-		game.createInitialChoices();
+		Game.mainTextArea.setText(message);
+		Game.player.getLocation().addItems(this.inventory.getInventory());
+		Game.player.getLocation().removeNPC(this);
+		Game.createInitialChoices();
 	}
 
 	public String getName() {
