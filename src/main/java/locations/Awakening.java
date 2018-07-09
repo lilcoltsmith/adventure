@@ -1,6 +1,5 @@
 package locations;
 
-import adventure.Game;
 import components.Location;
 import items.Potion;
 
