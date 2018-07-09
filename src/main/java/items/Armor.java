@@ -8,11 +8,10 @@ import adventure.Game;
 import components.Item;
 
 public class Armor extends Item {
-	public Game game;
 	public int defence;
 	
-	public Armor(Game game, String name, String type, int defence) {
-		this.game = game; this.name = name; this.type = type; this.defence = defence;
+	public Armor(String name, String type, int defence) {
+		this.name = name; this.type = type; this.defence = defence;
 		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
 		this.actionDescriptions.add("equip"); this.actions.add(new EquipHandler(this));
 	}
@@ -33,8 +32,8 @@ public class Armor extends Item {
 		}
 		
 		public void actionPerformed(ActionEvent action) {
-			game.player.getEquipment().equip(armor);
-			game.createInitialChoices();
+			Game.player.getEquipment().equip(armor);
+			Game.createInitialChoices();
 		}
 	}
 }

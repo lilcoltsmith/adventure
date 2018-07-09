@@ -8,7 +8,6 @@ import java.util.List;
 import adventure.Game;
 
 public abstract class Location {
-	public Game game;
 	public String name;
 	public String description;
 	public List<String> actionDescriptions;
@@ -17,8 +16,7 @@ public abstract class Location {
 	public List<Exit> exits;
 	public List<Item> items;
 	
-	public Location(Game game, String name) {
-		this.game = game;
+	public Location(String name) {
 		this.name = name;
 		this.description = new String();
 		this.items = new ArrayList<Item>();
@@ -27,8 +25,7 @@ public abstract class Location {
 		this.exits = new ArrayList<Exit>();
 	}
 	
-	public Location(Game game, String name, String description) {
-		this.game = game;
+	public Location(String name, String description) {
 		this.name = name;
 		this.description = description;
 		this.items = new ArrayList<Item>();
@@ -37,8 +34,7 @@ public abstract class Location {
 		this.exits = new ArrayList<Exit>();
 	}
 	
-	public Location(Game game, String name, String description, List<String> actionDescriptions, List<ActionListener> actions) {
-		this.game = game;
+	public Location(String name, String description, List<String> actionDescriptions, List<ActionListener> actions) {
 		this.name = name;
 		this.description = description;
 		this.actionDescriptions = actionDescriptions;
@@ -146,14 +142,14 @@ public abstract class Location {
 		}
 		
 		public void actionPerformed(ActionEvent action) {
-			List<Item> items = game.player.getLocation().getItems();
+			List<Item> items = Game.player.getLocation().getItems();
 			int itemIndex = items.indexOf(item);
 			
-			game.player.getInventory().addItem(item);
-			game.player.getLocation().removeItem(itemIndex);
-			game.player.getLocation().removeActionDescription(itemIndex);
-			game.player.getLocation().removeAction(itemIndex);
-			game.createInitialChoices();
+			Game.player.getInventory().addItem(item);
+			Game.player.getLocation().removeItem(itemIndex);
+			Game.player.getLocation().removeActionDescription(itemIndex);
+			Game.player.getLocation().removeAction(itemIndex);
+			Game.createInitialChoices();
 		}
 	}
 
