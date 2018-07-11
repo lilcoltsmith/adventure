@@ -165,7 +165,7 @@ public class Game {
 	}
 	
 	public static void createHud() {
-		hudPanel = createPanel(HUD_X, HUD_Y, HUD_WIDTH, HUD_HEIGHT, Color.blue);
+		hudPanel = createPanel(HUD_X, HUD_Y, HUD_WIDTH, HUD_HEIGHT, Color.black);
 		hudPanel.setLayout(HUD_LAYOUT);
 		playerIconButton = createIconButton(playerIcon, handler.inventoryHandler);
 		equipmentIconButton = createIconButton(equipmentIcon, handler.eiHandler);
