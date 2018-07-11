@@ -3,7 +3,7 @@ package components;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import adventure.Game;
+import game.Game;
 
 public abstract class NPC {
 	public String name;

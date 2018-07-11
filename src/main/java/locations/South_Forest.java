@@ -3,8 +3,8 @@ package locations;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import adventure.Game;
 import components.Location;
+import game.Game;
 
 public class South_Forest extends Location {
 	

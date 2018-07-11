@@ -1,4 +1,4 @@
-package adventure;
+package game;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -578,7 +578,6 @@ public class Game {
 			equipmentIconImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("body-armor-24-white.png"));
 			equipmentIconImage = resize(equipmentIconImage, 25, 25);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

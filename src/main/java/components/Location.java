@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import adventure.Game;
+import game.Game;
 
 public abstract class Location {
 	public String name;

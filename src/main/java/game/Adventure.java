@@ -1,4 +1,4 @@
-package adventure;
+package game;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

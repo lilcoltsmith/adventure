@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import adventure.Game;
 import components.Equipment;
 import components.Exit;
+import game.Game;
 
 public class GameHandler {
 		

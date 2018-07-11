@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import adventure.Game;
 import components.Item;
+import game.Game;
 
 public class Weapon extends Item {
 	public int damage;

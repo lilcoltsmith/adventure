@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import adventure.Game;
 import components.Inventory;
 import components.NPC;
+import game.Game;
 import items.Potion;
 
 public class Goblin extends NPC {

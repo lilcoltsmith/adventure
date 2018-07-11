@@ -1,6 +1,6 @@
 package components;
 
-import adventure.Game;
+import game.Game;
 import items.Armor;
 import items.Weapon;
 
