@@ -6,6 +6,8 @@ public class Player {
 	private String name;
 	private int totalHealth;
 	private int health;
+	private int damage;
+	private int defence;
 	private Inventory inventory;
 	private Equipment equipment;
 	private Location location;
@@ -13,6 +15,8 @@ public class Player {
 	public Player() {
 		this.totalHealth = 50;
 		this.health = 50;
+		this.damage = 5;
+		this.defence = 0;
 		this.inventory = new Inventory();
 		this.inventory.addItem(new Potion("death potion", "health", -50));
 		this.inventory.addItem(new Weapon("straight sword", "rightHand", 15));
@@ -46,6 +50,22 @@ public class Player {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public int getDefence() {
+		return defence;
+	}
+
+	public void setDefence(int defence) {
+		this.defence = defence;
 	}
 
 	public Inventory getInventory() {

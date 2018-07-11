@@ -1,4 +1,4 @@
-package adventure;
+package game;
 
 import components.Exit;
 import locations.*;

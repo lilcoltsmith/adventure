@@ -1,5 +1,6 @@
 package components;
 
+import game.Game;
 import items.Armor;
 import items.Weapon;
 
@@ -41,13 +42,13 @@ public class Equipment {
 	public void unequip(String item) {
 		switch(item) {
 			case "head":
-				if(head != null) addToInventory(head); head = null; break;
+				if(head != null) Game.player.setDefence(Game.player.getDefence() - this.head.defence); addToInventory(head); head = null; break;
 			case "chest":
-				if(chest != null) addToInventory(chest); chest = null; break;
+				if(chest != null) Game.player.setDefence(Game.player.getDefence() - this.chest.defence); addToInventory(chest); chest = null; break;
 			case "legs":
-				if(legs != null) addToInventory(legs); legs = null; break;
+				if(legs != null) Game.player.setDefence(Game.player.getDefence() - this.legs.defence); addToInventory(legs); legs = null; break;
 			case "rightHand":
-				if(rightHand != null) addToInventory(rightHand); rightHand = null; break;
+				if(rightHand != null) Game.player.setDamage(5); addToInventory(rightHand); rightHand = null; break;
 			case "offHand":
 				if(offHand != null) addToInventory(offHand); offHand = null; break;
 		}
@@ -67,6 +68,7 @@ public class Equipment {
 
 	public void setHead(Armor head) {
 		this.head = head;
+		Game.player.setDefence(Game.player.getDefence() + head.defence);
 	}
 
 	public Item getChest() {
@@ -75,6 +77,7 @@ public class Equipment {
 
 	public void setChest(Armor chest) {
 		this.chest = chest;
+		Game.player.setDefence(Game.player.getDefence() + chest.defence);
 	}
 
 	public Item getLegs() {
@@ -83,6 +86,7 @@ public class Equipment {
 
 	public void setLegs(Armor legs) {
 		this.legs = legs;
+		Game.player.setDefence(Game.player.getDefence() + legs.defence);
 	}
 
 	public Item getRightHand() {
@@ -91,6 +95,7 @@ public class Equipment {
 
 	public void setRightHand(Weapon rightHand) {
 		this.rightHand = rightHand;
+		Game.player.setDamage(rightHand.damage);
 	}
 
 	public Item getOffHand() {
