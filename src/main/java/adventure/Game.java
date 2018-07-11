@@ -5,12 +5,18 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +52,7 @@ public class Game {
 	public static int HUD_Y = 15;
 	public static int HUD_WIDTH = 600;
 	public static int HUD_HEIGHT = 50;
-	public static FlowLayout HUD_LAYOUT = new FlowLayout(FlowLayout.CENTER, 20, 10);
+	public static FlowLayout HUD_LAYOUT = new FlowLayout(FlowLayout.CENTER, 10, 5);
 	// HEALTH BAR
 	public static Color HEALTH_COLOR = new Color(60, 0, 0);
 	public static Dimension HEALTH_SIZE = new Dimension(200, 25);
@@ -79,21 +85,21 @@ public class Game {
 	// window elements
 	public static JFrame window;
 	public static Container container;
-	public static JPanel titleNamePanel;
-	public static JPanel startButtonPanel;
-	public static JPanel mainTextPanel;
-	public static JPanel choicePanel;
-	public static JPanel hudPanel;
-	public static JPanel subChoicePanel;
+	public static JPanel titleNamePanel, startButtonPanel, mainTextPanel, choicePanel, hudPanel, subChoicePanel;
 	public static JLabel titleNameLabel, hpLabel, hpLabelNumber, locationLabel, locationLabelName;
 	public static JProgressBar hpBar;
-	public static JButton startButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
+	public static JButton startButton, playerIconButton, equipmentIconButton, choice0, choice1, choice2, choice3, subChoice0, subChoice1, subChoice2, subChoice3;
 	public static JTextArea mainTextArea; //Contains 7 lines of text
 	public static JScrollPane scroll;
 	// fonts
 	public static Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public static Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public static Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
+	// icons
+	public static BufferedImage playerIconImage;
+	public static ImageIcon playerIcon;
+	public static BufferedImage equipmentIconImage;
+	public static ImageIcon equipmentIcon;
 		
 	public Game() {
 		try {
@@ -111,6 +117,9 @@ public class Game {
 		MAIN_TEXT_SCROLL_SIZE = new Dimension((width-200), 245);
 		CHOICE_X = (width/2)-((width-200)/2); CHOICE_Y = height - 250; CHOICE_WIDTH = (width-200);
 		SUB_CHOICE_Y = height - 100;
+		
+		// LOAD IMAGES
+		loadImages();
 		
 		Game.handler = new GameHandler();
 		Game.map = new Map();
@@ -156,18 +165,22 @@ public class Game {
 	}
 	
 	public static void createHud() {
-		hudPanel = createPanel(HUD_X, HUD_Y, HUD_WIDTH, HUD_HEIGHT, Color.black);
+		hudPanel = createPanel(HUD_X, HUD_Y, HUD_WIDTH, HUD_HEIGHT, Color.blue);
 		hudPanel.setLayout(HUD_LAYOUT);
+		playerIconButton = createIconButton(playerIcon, handler.inventoryHandler);
+		equipmentIconButton = createIconButton(equipmentIcon, handler.eiHandler);
 		hpLabel = createLabel("HP:", Color.white, smallFont);
 		hpBar = createProgressBar(true, Color.black, HEALTH_COLOR);
 		hpBar.setPreferredSize(HEALTH_SIZE);
 		hpLabelNumber = createLabel(Integer.toString(player.getHealth()), Color.white, smallFont);
 		locationLabel = createLabel("Location:", Color.white, smallFont);
 		locationLabelName = createLabel(player.getLocationName(), Color.white, smallFont);
+		hudPanel.add(playerIconButton);
 		hudPanel.add(hpLabel);
 		hudPanel.add(hpBar);
 		hudPanel.add(locationLabel);
-		hudPanel.add(locationLabelName);		
+		hudPanel.add(locationLabelName);
+		hudPanel.add(equipmentIconButton);
 		container.add(hudPanel);
 	}
 	
@@ -434,13 +447,7 @@ public class Game {
 	}
 	
 	public static void attackEnemy(NPC npc) {
-		int playerDamage;
-		if(player.getEquipment().getRightHand() == null) {
-			playerDamage = new Random().nextInt(5);
-		}
-		else {
-			playerDamage = new Random().nextInt(player.getEquipment().rightHand.getDamage());
-		}
+		int playerDamage = new Random().nextInt(player.getDamage());;
 		if(npc.health <= playerDamage) {
 			kill(npc);
 		}
@@ -542,6 +549,17 @@ public class Game {
 		return button;
 	}
 	
+	public static JButton createIconButton(ImageIcon icon, ActionListener action) {
+		JButton button = new JButton(icon);
+		button.setBackground(Color.black);
+		button.setForeground(Color.white);
+		button.setFont(normalFont);
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
+		button.addActionListener(action);
+		return button;
+	}
+	
 	public static JTextArea createTextArea(int x, int y, int width, int height, String text, Color background, Color foreground, Font font) {
 		JTextArea textArea = new JTextArea(text);
 		textArea.setBounds(x, y, width, height);
@@ -552,4 +570,28 @@ public class Game {
 		textArea.setEditable(false);
 		return textArea;
 	}
+	
+	public static void loadImages() {
+		try {
+			playerIconImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("player-50-white.png"));
+			playerIconImage = resize(playerIconImage, 25, 25);
+			equipmentIconImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("body-armor-24-white.png"));
+			equipmentIconImage = resize(equipmentIconImage, 25, 25);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		playerIcon = new ImageIcon(playerIconImage);
+		equipmentIcon = new ImageIcon(equipmentIconImage);
+	}
+	
+	public static BufferedImage resize(BufferedImage img, int height, int width) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
 }

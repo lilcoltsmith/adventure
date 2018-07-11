@@ -5,12 +5,15 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import adventure.Game;
+import components.Equipment;
 import components.Exit;
 
 public class GameHandler {
 		
 	public TitleScreenHandler tsHandler = new TitleScreenHandler();
 	public ResetHandler resetHandler = new ResetHandler();
+	public PlayerIconHandler piHandler = new PlayerIconHandler();
+	public EquipmentIconHandler eiHandler = new EquipmentIconHandler();
 	public NavigationHandler navHandler = new NavigationHandler();
 	public ActionHandler actionHandler = new ActionHandler();
 	public InventoryHandler inventoryHandler = new InventoryHandler();
@@ -42,6 +45,31 @@ public class GameHandler {
 	public class ResetHandler implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			Game.resetGame();
+		}
+	}
+	
+	public class PlayerIconHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			
+		}
+	}
+	
+	public class EquipmentIconHandler implements ActionListener {
+		public void actionPerformed(ActionEvent action) {
+			Equipment equipment = Game.player.getEquipment();
+			String equipmentStr = "";
+			if(equipment.head != null)
+				equipmentStr += "Head: " + equipment.head.name + " -> +" + equipment.head.defence + " defence\n";
+			if(equipment.chest != null)
+				equipmentStr += "Chest: " + equipment.chest.name + " -> +" + equipment.chest.defence + " defence\n";
+			if(equipment.legs != null)
+				equipmentStr += "Legs: " + equipment.legs.name + " -> +" + equipment.legs.defence + " defence\n";
+			if(equipment.rightHand != null)
+				equipmentStr += "Right Hand: " + equipment.rightHand.name + " -> " + equipment.rightHand.damage + " damage\n";
+			if(equipment.offHand != null)
+				equipmentStr += "Off Hand: " + equipment.offHand.name + "\n";
+			equipmentStr += Game.player.getDefence() + " defence\n" + Game.player.getDamage() + " damage";
+			Game.mainTextArea.setText(equipmentStr);
 		}
 	}
 	
