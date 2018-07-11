@@ -42,15 +42,30 @@ public class Equipment {
 	public void unequip(String item) {
 		switch(item) {
 			case "head":
-				if(head != null) Game.player.setDefence(Game.player.getDefence() - this.head.defence); addToInventory(head); head = null; break;
+				if(head != null) {
+					Game.player.setDefence(Game.player.getDefence() - this.head.defence); addToInventory(head); head = null;
+				}
+				 break;
 			case "chest":
-				if(chest != null) Game.player.setDefence(Game.player.getDefence() - this.chest.defence); addToInventory(chest); chest = null; break;
+				if(chest != null) {
+					Game.player.setDefence(Game.player.getDefence() - this.chest.defence); addToInventory(chest); chest = null;
+				}
+				 break;
 			case "legs":
-				if(legs != null) Game.player.setDefence(Game.player.getDefence() - this.legs.defence); addToInventory(legs); legs = null; break;
+				if(legs != null) {
+					Game.player.setDefence(Game.player.getDefence() - this.legs.defence); addToInventory(legs); legs = null;
+				}
+				 break;
 			case "rightHand":
-				if(rightHand != null) Game.player.setDamage(5); addToInventory(rightHand); rightHand = null; break;
+				if(rightHand != null) {
+					Game.player.setDamage(5); addToInventory(rightHand); rightHand = null;
+				}
+				 break;
 			case "offHand":
-				if(offHand != null) addToInventory(offHand); offHand = null; break;
+				if(offHand != null) {
+					addToInventory(offHand); offHand = null;
+				}
+				 break;
 		}
 	}
 	
