@@ -129,12 +129,8 @@ public class Game {
 	
 	public static void resetGame() {
 		container.removeAll();
-		if(Game.fullscreen) {
-			Game.window = Game.createWindow();
-		}
-		else {
-			Game.window = Game.createWindow(Game.width, Game.height);
-		}
+		container.revalidate();
+		container.repaint();
 		Game.map = new Map();
 		Game.player = new Player();
 		titleScreen();
