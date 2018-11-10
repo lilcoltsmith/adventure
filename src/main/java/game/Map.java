@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import components.Exit;
+import items.Potion;
 import locations.BasicLocation;
 import npc.*;
 
@@ -34,6 +35,7 @@ public class Map {
 		BasicLocation awakening = (BasicLocation) locations.stream()
 				.filter(location -> location.name.equals("Awakening")).findFirst().get();
 		awakening.setNPC(new Enemy("goblin", 5, 5, 50));
+		awakening.getNPC().getInventory().addItem(new Potion("goblin potion", "health", 5));
 		awakening.exits.add(new Exit(1, (BasicLocation) locations
 					.stream()
 					.filter(location -> location.name.equals("North Field")).findFirst().get()));

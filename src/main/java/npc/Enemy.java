@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import components.Inventory;
 import components.NPC;
 import game.Game;
-import items.Potion;
 
 public class Enemy extends NPC {
 	
@@ -15,7 +14,6 @@ public class Enemy extends NPC {
 		this.name = name; this.damage = damage; this.defence = defence;
 		this.inventory = new Inventory();
 		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
-		this.inventory.addItem(new Potion("goblin potion", "health", 5));
 		this.actionDescriptions.add("attack"); this.actions.add(new AttackHandler(this));
 		this.health = health; this.totalHealth = health;
 	}
