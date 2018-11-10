@@ -473,7 +473,6 @@ public class Game {
 					+ " damage\n");
 			int randomDamage = new Random().nextInt(npc.damage);
 			int randomDefence = new Random().nextInt(player.getDefence());
-			System.out.println("PLAYER: Damage: "+ randomDamage +", Defence: "+randomDefence);
 			randomDefence = randomDefence > randomDamage ? randomDamage : randomDefence;
 			randomDamage = randomDefence == randomDamage ? 0 : randomDamage - randomDefence;
 			if(randomDefence != 0) {
