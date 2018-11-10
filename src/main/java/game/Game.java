@@ -151,7 +151,7 @@ public class Game {
 	}
 	
 	public static void createGameScreen() {
-		player.setLocation(map.awakening);
+		player.setLocation(map.locations.get(0));
 		titleNamePanel.setVisible(false);
 		startButtonPanel.setVisible(false);
 		createHud();

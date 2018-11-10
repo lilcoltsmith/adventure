@@ -1,53 +1,98 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import components.Exit;
-import locations.*;
+import locations.BasicLocation;
 import npc.*;
 
 public class Map {
-		
-	public Awakening awakening;
-	public North_Field northField;
-	public West_Forest westForest;
-	public South_Forest southForest;
-	public East_Field eastField;
-	public Monolith monolith;
-	public Monolith_Top monolithTop;
+	
+	public List<BasicLocation> locations;
 	
 	public Map() {
 		createMap();
 	}
 	
 	public void createMap() {
-		// initial location
-		awakening = new Awakening("Awakening", "Before you is a monolithic shrine to Zork...");
+		locations = new ArrayList<BasicLocation>();
 		
-		//npc
+		// Add New Locations
+		locations.add(new BasicLocation("Awakening", "Before you is a monolithic shrine to Zork..."));
+		locations.add(new BasicLocation("North Field", "You are north of the monolith."));
+		locations.add(new BasicLocation("South Forest", "You are south of the monolith"));
+		locations.add(new BasicLocation("East Field", "You are east of the monolith"));
+		locations.add(new BasicLocation("West Forest", "You are west of the monolith"));
+		locations.add(new BasicLocation("Monolith", "It's very dark and spooky..."));
+		locations.add(new BasicLocation("Monolith - Top", "You can see for miles around you.\n"
+				+ "There is a forest to the south and west.\nThere is a field north and east."));
+		
+		// Configure Locations
+		
+		// AWAKENING
+		BasicLocation awakening = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get();
 		awakening.setNPC(new Goblin("goblin", 5, 50));
-		// north field
-		northField = new North_Field("North Field", "You are north of the monolith.");
-		awakening.exits.add(new Exit(1, northField));
-		northField.exits.add(new Exit(2, awakening));
-		// south forest
-		southForest = new South_Forest("SouthForest", "You are south of the monolith");
-		awakening.exits.add(new Exit(2, southForest));
-		southForest.exits.add(new Exit(1, awakening));
-		// east forest
-		eastField = new East_Field("East Field", "You are east of the monolith");
-		awakening.exits.add(new Exit(3, eastField));
-		eastField.exits.add(new Exit(4, awakening));
-		// west forest
-		westForest = new West_Forest("West Forest", "You are west of the monolith");
-		awakening.exits.add(new Exit(4, westForest));
-		westForest.exits.add(new Exit(3, awakening));
-		// monolith
-		monolith = new Monolith("Monolith", "It's very dark and spooky...");
-		awakening.exits.add(new Exit(11, monolith));
-		monolith.exits.add(new Exit(12, awakening));
-		// monolith-top
-		monolithTop = new Monolith_Top("Monolith-Top", "You can see for miles around you.\n"
-				+ "There is a forest to the south and west.\nThere is a field north and east.");
-		awakening.exits.add(new Exit(5, monolithTop));
-		monolithTop.exits.add(new Exit(6, awakening));
+		awakening.exits.add(new Exit(1, (BasicLocation) locations
+					.stream()
+					.filter(location -> location.name.equals("North Field")).findFirst().get()));
+		awakening.exits.add(new Exit(2, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("South Forest")).findFirst().get()));
+		awakening.exits.add(new Exit(3, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("East Field")).findFirst().get()));
+		awakening.exits.add(new Exit(4, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("West Forest")).findFirst().get()));
+		awakening.exits.add(new Exit(5, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Monolith - Top")).findFirst().get()));
+		awakening.exits.add(new Exit(11, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Monolith")).findFirst().get()));
+		
+		// NORTH FIELD
+		BasicLocation northField = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("North Field")).findFirst().get();
+		northField.exits.add(new Exit(2, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
+		
+		// SOUTH FOREST
+		BasicLocation southForest = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("South Forest")).findFirst().get();
+		southForest.exits.add(new Exit(1, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
+		
+		// EAST FIELD
+		BasicLocation eastField = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("East Field")).findFirst().get();
+		eastField.exits.add(new Exit(4, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
+		
+		// WEST FOREST
+		BasicLocation westForest = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("West Forest")).findFirst().get();
+		westForest.exits.add(new Exit(3, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
+		
+		// MONOLITH - TOP
+		BasicLocation monolithTop = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("Monolith - Top")).findFirst().get();
+		monolithTop.exits.add(new Exit(6, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
+		
+		// MONOLITH
+		BasicLocation monolith = (BasicLocation) locations.stream()
+				.filter(location -> location.name.equals("Monolith")).findFirst().get();
+		monolith.exits.add(new Exit(12, (BasicLocation) locations
+				.stream()
+				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
 	}
 }

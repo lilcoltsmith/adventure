@@ -60,7 +60,7 @@ public class Exit {
 	}
 
 	
-	public Exit( int direction, Location leadsTo ) {
+	public Exit(int direction, Location leadsTo) {
 		this.direction = direction;
 
 		// Assign direction names
