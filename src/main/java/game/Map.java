@@ -33,7 +33,7 @@ public class Map {
 		// AWAKENING
 		BasicLocation awakening = (BasicLocation) locations.stream()
 				.filter(location -> location.name.equals("Awakening")).findFirst().get();
-		awakening.setNPC(new Goblin("goblin", 5, 50));
+		awakening.setNPC(new Goblin("goblin", 5, 5, 50));
 		awakening.exits.add(new Exit(1, (BasicLocation) locations
 					.stream()
 					.filter(location -> location.name.equals("North Field")).findFirst().get()));

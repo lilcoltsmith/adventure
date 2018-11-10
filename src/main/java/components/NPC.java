@@ -8,6 +8,7 @@ import game.Game;
 public abstract class NPC {
 	public String name;
 	public int damage;
+	public int defence;
 	public int health;
 	public int totalHealth;
 	public Inventory inventory;

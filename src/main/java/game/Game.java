@@ -455,17 +455,31 @@ public class Game {
 	}
 	
 	public static void attackEnemy(NPC npc) {
-		int playerDamage = new Random().nextInt(player.getDamage());;
+		int playerDamage = new Random().nextInt(player.getDamage());
+		int npcDefence = new Random().nextInt(npc.defence);
+		System.out.println("NPC: Damage: "+ playerDamage +", Defence: "+npcDefence);
+		npcDefence = npcDefence > playerDamage ? playerDamage : npcDefence;
+		playerDamage = npcDefence == playerDamage ? 0 : playerDamage - npcDefence;
 		if(npc.health <= playerDamage) {
 			kill(npc);
 		}
 		else {
 			npc.health -= playerDamage;
 			mainTextArea.setText(npc.name + ": " + npc.health + "/" + npc.totalHealth + "\n");
-			mainTextArea.setText(mainTextArea.getText() + "You hit the " + npc.name + " for " + playerDamage 
+			if(npcDefence != 0) {
+				mainTextArea.setText(mainTextArea.getText() + npc.name + " blocked " + npcDefence + " of your damage\n");
+			}
+			mainTextArea.setText(mainTextArea.getText() + "You hit " + npc.name + " for " + playerDamage 
 					+ " damage\n");
 			int randomDamage = new Random().nextInt(npc.damage);
-			mainTextArea.setText(mainTextArea.getText() + "The " + npc.name + " hits you for " + randomDamage 
+			int randomDefence = new Random().nextInt(player.getDefence());
+			System.out.println("PLAYER: Damage: "+ randomDamage +", Defence: "+randomDefence);
+			randomDefence = randomDefence > randomDamage ? randomDamage : randomDefence;
+			randomDamage = randomDefence == randomDamage ? 0 : randomDamage - randomDefence;
+			if(randomDefence != 0) {
+				mainTextArea.setText(mainTextArea.getText() + "You block " + randomDefence + " of " + npc.name + "'s damage\n");
+			}
+			mainTextArea.setText(mainTextArea.getText() + npc.name + " hits you for " + randomDamage 
 					+ " damage\n");
 			updateHealth(-randomDamage);
 		}

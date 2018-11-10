@@ -11,8 +11,8 @@ import items.Potion;
 
 public class Goblin extends NPC {
 	
-	public Goblin(String name, int damage, int health) {
-		this.name = name; this.damage = damage;
+	public Goblin(String name, int damage, int defence, int health) {
+		this.name = name; this.damage = damage; this.defence = defence;
 		this.inventory = new Inventory();
 		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
 		this.inventory.addItem(new Potion("goblin potion", "health", 5));
