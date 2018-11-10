@@ -241,30 +241,34 @@ public class Game {
 	public static void createNavigation(int page) {	
 		List<Exit> exits = player.getLocation().getExits();
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
-	
-		removeChoiceActionListeners();
-		menuState = "nav";
-		if(exits != null) {
-			if(one >=0 && one <= exits.size()-1) {
-				choice0.setText(exits.get(one).getDirectionName());
-				choice0 = addChoiceAction(choice0);
+		if(one <= exits.size() && one >= 0) {
+			removeChoiceActionListeners();
+			menuState = "nav";
+			if(exits != null) {
+				if(one >=0 && one <= exits.size()-1) {
+					choice0.setText(exits.get(one).getDirectionName());
+					choice0 = addChoiceAction(choice0);
+				}
+				else choice0.setText("--");
+				if(two >=0 && two <= exits.size()-1) {
+					choice1.setText(exits.get(two).getDirectionName());
+					choice1 = addChoiceAction(choice1);
+				}
+				else choice1.setText("--");
+				if(three >=0 && three <= exits.size()-1) {
+					choice2.setText(exits.get(three).getDirectionName());
+					choice2 = addChoiceAction(choice2);
+				}
+				else choice2.setText("--");
+				if(four >=0 && four <= exits.size()-1) {
+					choice3.setText(exits.get(four).getDirectionName());
+					choice3 = addChoiceAction(choice3);
+				}
+				else choice3.setText("--");
 			}
-			else choice0.setText("--");
-			if(two >=0 && two <= exits.size()-1) {
-				choice1.setText(exits.get(two).getDirectionName());
-				choice1 = addChoiceAction(choice1);
-			}
-			else choice1.setText("--");
-			if(three >=0 && three <= exits.size()-1) {
-				choice2.setText(exits.get(three).getDirectionName());
-				choice2 = addChoiceAction(choice2);
-			}
-			else choice2.setText("--");
-			if(four >=0 && four <= exits.size()-1) {
-				choice3.setText(exits.get(four).getDirectionName());
-				choice3 = addChoiceAction(choice3);
-			}
-			else choice3.setText("--");
+		}
+		else {
+			navPage = (one > exits.size()) ? navPage-1 : navPage+1;
 		}
 	}
 	
@@ -315,26 +319,30 @@ public class Game {
 			actions = player.getLocation().getNPC().getActions();
 		}
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
-		
-		removeChoiceActionListeners();
-		menuState = "action";
-		if(actions != null) {
-			if(one >=0 && one <= actions.size()-1) {
-				choice0.setText(actionDescriptions.get(one)); choice0.addActionListener(actions.get(one));
+		if(one <= actions.size() && one >= 0) {
+			removeChoiceActionListeners();
+			menuState = "action";
+			if(actions != null) {
+				if(one >=0 && one <= actions.size()-1) {
+					choice0.setText(actionDescriptions.get(one)); choice0.addActionListener(actions.get(one));
+				}
+				else choice0.setText("--");
+				if(two >=0 && two <= actions.size()-1) {
+					choice1.setText(actionDescriptions.get(two)); choice1.addActionListener(actions.get(two));
+				}
+				else choice1.setText("--");
+				if(three >=0 && three <= actions.size()-1) {
+					choice2.setText(actionDescriptions.get(three)); choice2.addActionListener(actions.get(three));
+				}
+				else choice2.setText("--");
+				if(four >=0 && four <= actions.size()-1) {
+					choice3.setText(actionDescriptions.get(four)); choice3.addActionListener(actions.get(four));
+				}
+				else choice3.setText("--");
 			}
-			else choice0.setText("--");
-			if(two >=0 && two <= actions.size()-1) {
-				choice1.setText(actionDescriptions.get(two)); choice1.addActionListener(actions.get(two));
-			}
-			else choice1.setText("--");
-			if(three >=0 && three <= actions.size()-1) {
-				choice2.setText(actionDescriptions.get(three)); choice2.addActionListener(actions.get(three));
-			}
-			else choice2.setText("--");
-			if(four >=0 && four <= actions.size()-1) {
-				choice3.setText(actionDescriptions.get(four)); choice3.addActionListener(actions.get(four));
-			}
-			else choice3.setText("--");
+		}
+		else {
+			actionPage = (one > actions.size()) ? actionPage-1 : actionPage+1;
 		}
 	}
 	
@@ -342,30 +350,34 @@ public class Game {
 		Inventory inventory = player.getInventory();
 		List<Item> items = inventory.getInventory();
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
-		
-		removeChoiceActionListeners();
-		menuState = "inventory";
-		if(inventory != null) {
-			if(one >=0 && one <= items.size()-1) {
-				choice0.setText(items.get(one).getName()); choice0.setActionCommand(Integer.toString(one));
-				choice0.addActionListener(handler.itemHandler);
+		if(one <= items.size() && one >= 0) {
+			removeChoiceActionListeners();
+			menuState = "inventory";
+			if(inventory != null) {
+				if(one >=0 && one <= items.size()-1) {
+					choice0.setText(items.get(one).getName()); choice0.setActionCommand(Integer.toString(one));
+					choice0.addActionListener(handler.itemHandler);
+				}
+				else choice0.setText("--");
+				if(two >=0 && two <= items.size()-1) {
+					choice1.setText(items.get(two).getName()); choice1.setActionCommand(Integer.toString(two));
+					choice1.addActionListener(handler.itemHandler);
+				}
+				else choice1.setText("--");
+				if(three >=0 && three <= items.size()-1) {
+					choice2.setText(items.get(three).getName()); choice2.setActionCommand(Integer.toString(three));
+					choice2.addActionListener(handler.itemHandler);
+				}
+				else choice2.setText("--");
+				if(four >=0 && four <= items.size()-1) {
+					choice3.setText(items.get(four).getName()); choice3.setActionCommand(Integer.toString(four));
+					choice3.addActionListener(handler.itemHandler);
+				}
+				else choice3.setText("--");
 			}
-			else choice0.setText("--");
-			if(two >=0 && two <= items.size()-1) {
-				choice1.setText(items.get(two).getName()); choice1.setActionCommand(Integer.toString(two));
-				choice1.addActionListener(handler.itemHandler);
-			}
-			else choice1.setText("--");
-			if(three >=0 && three <= items.size()-1) {
-				choice2.setText(items.get(three).getName()); choice2.setActionCommand(Integer.toString(three));
-				choice2.addActionListener(handler.itemHandler);
-			}
-			else choice2.setText("--");
-			if(four >=0 && four <= items.size()-1) {
-				choice3.setText(items.get(four).getName()); choice3.setActionCommand(Integer.toString(four));
-				choice3.addActionListener(handler.itemHandler);
-			}
-			else choice3.setText("--");
+		}
+		else {
+			inventoryPage = (one > items.size()) ? inventoryPage-1 : inventoryPage+1;
 		}
 	}
 	
