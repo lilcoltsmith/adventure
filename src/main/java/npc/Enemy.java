@@ -9,9 +9,9 @@ import components.NPC;
 import game.Game;
 import items.Potion;
 
-public class Goblin extends NPC {
+public class Enemy extends NPC {
 	
-	public Goblin(String name, int damage, int defence, int health) {
+	public Enemy(String name, int damage, int defence, int health) {
 		this.name = name; this.damage = damage; this.defence = defence;
 		this.inventory = new Inventory();
 		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
