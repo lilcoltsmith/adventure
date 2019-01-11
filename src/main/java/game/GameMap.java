@@ -1,6 +1,25 @@
 package game;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.nio.file.WatchEvent.Kind;
+import java.nio.file.WatchEvent.Modifier;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import components.Exit;
@@ -8,15 +27,16 @@ import items.Potion;
 import locations.BasicLocation;
 import npc.*;
 
-public class Map {
+public class GameMap {
 	
 	public List<BasicLocation> locations;
 	
-	public Map() {
+	public GameMap() {
 		createMap();
 	}
 	
 	public void createMap() {
+		//readLocationFile("awakening.loc");
 		locations = new ArrayList<BasicLocation>();
 		
 		// Add New Locations
@@ -97,4 +117,23 @@ public class Map {
 				.stream()
 				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
 	}
+	
+//	private BasicLocation readLocationFile(String filename) {
+//		try {
+//			InputStream is = GameMap.class.getResourceAsStream(filename);
+//			InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
+//			BufferedReader reader = new BufferedReader(streamReader);
+//			String line;
+//			while((line = reader.readLine()) != null) {
+//				System.out.println(line);
+//			}
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		BasicLocation location;
+//		return null;
+//	}
 }

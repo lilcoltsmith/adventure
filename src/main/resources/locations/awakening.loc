@@ -1,0 +1,29 @@
+Location
+1
+Name
+Awakening
+Description
+Before you is a monolithic shrine to Zork…
+NPC
+1
+Golbin,5,5,50
+Exits
+6
+Exit
+1
+North Field
+Exit
+2
+South Forest
+Exit
+3
+East Field
+Exit
+4
+West Forest
+Exit
+5
+Monolith - Top
+Exit
+11
+Monolith

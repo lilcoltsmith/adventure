@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 
 public class Adventure {
 	
-	public static Map map;
+	public static GameMap map;
 	
 	public static JButton createResolutionButton(JFrame frame, int width, int height) {
 		JButton btn = new JButton("Windowed: " + width + "x" + height);

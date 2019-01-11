@@ -16,7 +16,7 @@ public class Player {
 		this.totalHealth = 50;
 		this.health = 50;
 		this.damage = 5;
-		this.defence = 0;
+		this.defence = 1;
 		this.inventory = new Inventory();
 		this.inventory.addItem(new Potion("death potion", "health", -50));
 		this.inventory.addItem(new Weapon("straight sword", "rightHand", 15));

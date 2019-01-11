@@ -73,7 +73,7 @@ public class Game {
 	
 	// player/map
 	public static Player player;
-	public static Map map;
+	public static GameMap map;
 	public static GameHandler handler;
 	// menu state
 	public static String menuState;
@@ -122,7 +122,7 @@ public class Game {
 		loadImages();
 		
 		Game.handler = new GameHandler();
-		Game.map = new Map();
+		Game.map = new GameMap();
 		Game.player = new Player();
 		titleScreen();
 	}
@@ -131,7 +131,7 @@ public class Game {
 		container.removeAll();
 		container.revalidate();
 		container.repaint();
-		Game.map = new Map();
+		Game.map = new GameMap();
 		Game.player = new Player();
 		titleScreen();
 	}
@@ -457,7 +457,6 @@ public class Game {
 	public static void attackEnemy(NPC npc) {
 		int playerDamage = new Random().nextInt(player.getDamage());
 		int npcDefence = new Random().nextInt(npc.defence);
-		System.out.println("NPC: Damage: "+ playerDamage +", Defence: "+npcDefence);
 		npcDefence = npcDefence > playerDamage ? playerDamage : npcDefence;
 		playerDamage = npcDefence == playerDamage ? 0 : playerDamage - npcDefence;
 		if(npc.health <= playerDamage) {
@@ -471,16 +470,16 @@ public class Game {
 			}
 			mainTextArea.setText(mainTextArea.getText() + "You hit " + npc.name + " for " + playerDamage 
 					+ " damage\n");
-			int randomDamage = new Random().nextInt(npc.damage);
-			int randomDefence = new Random().nextInt(player.getDefence());
-			randomDefence = randomDefence > randomDamage ? randomDamage : randomDefence;
-			randomDamage = randomDefence == randomDamage ? 0 : randomDamage - randomDefence;
-			if(randomDefence != 0) {
-				mainTextArea.setText(mainTextArea.getText() + "You block " + randomDefence + " of " + npc.name + "'s damage\n");
+			int npcDamage = new Random().nextInt(npc.damage);
+			int playerDefence = new Random().nextInt(player.getDefence());
+			playerDefence = playerDefence > npcDamage ? npcDamage : playerDefence;
+			npcDamage = playerDefence == npcDamage ? 0 : npcDamage - playerDefence;
+			if(playerDefence != 0) {
+				mainTextArea.setText(mainTextArea.getText() + "You block " + playerDefence + " of " + npc.name + "'s damage\n");
 			}
-			mainTextArea.setText(mainTextArea.getText() + npc.name + " hits you for " + randomDamage 
+			mainTextArea.setText(mainTextArea.getText() + npc.name + " hits you for " + npcDamage 
 					+ " damage\n");
-			updateHealth(-randomDamage);
+			updateHealth(-npcDamage);
 		}
 	}
 	
