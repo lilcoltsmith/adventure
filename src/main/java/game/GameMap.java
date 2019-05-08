@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import components.Exit;
 import items.Potion;
@@ -18,108 +19,82 @@ public class GameMap {
 	}
 	
 	public void createMap() {
-		String fileContents = new String();
-		fileContents = MapFileReader.readLocationFile("awakening.loc");
+		String fileContents = null;
+		ArrayList<String> locationFiles = MapFileReader.getLocationsList("locations-list.txt");
+		ArrayList<String> locationData = new ArrayList<String>();
+		for (String file : locationFiles) {
+			fileContents = MapFileReader.readLocationFile(file);
+			locationData.add(fileContents);
+		}
 		
-		System.out.println(fileContents);
-		
-		locations = new ArrayList<BasicLocation>();
-		
-		// Add New Locations
-		locations.add(new BasicLocation("Awakening", "Before you is a monolithic shrine to Zork..."));
-		locations.add(new BasicLocation("North Field", "You are north of the monolith."));
-		locations.add(new BasicLocation("South Forest", "You are south of the monolith"));
-		locations.add(new BasicLocation("East Field", "You are east of the monolith"));
-		locations.add(new BasicLocation("West Forest", "You are west of the monolith"));
-		locations.add(new BasicLocation("Monolith", "It's very dark and spooky..."));
-		locations.add(new BasicLocation("Monolith - Top", "You can see for miles around you.\n"
-				+ "There is a forest to the south and west.\nThere is a field north and east."));
-		
-		// Configure Locations
-		
-		// AWAKENING
-		BasicLocation awakening = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get();
-		awakening.setNPC(new Enemy("goblin", 5, 5, 50));
-		awakening.getNPC().getInventory().addItem(new Potion("goblin potion", "health", 5));
-		awakening.exits.add(new Exit(1, (BasicLocation) locations
-					.stream()
-					.filter(location -> location.name.equals("North Field")).findFirst().get()));
-		awakening.exits.add(new Exit(2, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("South Forest")).findFirst().get()));
-		awakening.exits.add(new Exit(3, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("East Field")).findFirst().get()));
-		awakening.exits.add(new Exit(4, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("West Forest")).findFirst().get()));
-		awakening.exits.add(new Exit(5, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Monolith - Top")).findFirst().get()));
-		awakening.exits.add(new Exit(11, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Monolith")).findFirst().get()));
-		
-		// NORTH FIELD
-		BasicLocation northField = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("North Field")).findFirst().get();
-		northField.exits.add(new Exit(2, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
-		
-		// SOUTH FOREST
-		BasicLocation southForest = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("South Forest")).findFirst().get();
-		southForest.exits.add(new Exit(1, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
-		
-		// EAST FIELD
-		BasicLocation eastField = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("East Field")).findFirst().get();
-		eastField.exits.add(new Exit(4, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
-		
-		// WEST FOREST
-		BasicLocation westForest = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("West Forest")).findFirst().get();
-		westForest.exits.add(new Exit(3, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
-		
-		// MONOLITH - TOP
-		BasicLocation monolithTop = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("Monolith - Top")).findFirst().get();
-		monolithTop.exits.add(new Exit(6, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
-		
-		// MONOLITH
-		BasicLocation monolith = (BasicLocation) locations.stream()
-				.filter(location -> location.name.equals("Monolith")).findFirst().get();
-		monolith.exits.add(new Exit(12, (BasicLocation) locations
-				.stream()
-				.filter(location -> location.name.equals("Awakening")).findFirst().get()));
+		locations = createLocations(locationData);
+		connectLocations(locationData);
 	}
-	
-//	private BasicLocation readLocationFile(String filename) {
-//		try {
-//			InputStream is = GameMap.class.getResourceAsStream(filename);
-//			InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
-//			BufferedReader reader = new BufferedReader(streamReader);
-//			String line;
-//			while((line = reader.readLine()) != null) {
-//				System.out.println(line);
-//			}
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		BasicLocation location;
-//		return null;
-//	}
+
+	private void connectLocations(ArrayList<String> locationData) {
+		for(String location : locationData) {
+			BasicLocation bl = null;
+			Scanner scanner = new Scanner(location);
+			if(scanner.nextLine().equals("Name")) {
+				String name = scanner.nextLine();
+				bl = (BasicLocation) locations.stream().filter(item -> item.name.equals(name)).findFirst().get();
+			}
+			while(scanner.hasNext()) {
+				if (scanner.nextLine().equals("Exits")) {
+					int exitCount = Integer.parseInt(scanner.nextLine());
+					for(int i = 0; i < exitCount; i++) {
+						int exitNum = Integer.parseInt(scanner.nextLine());
+						String exitName = scanner.nextLine();
+						BasicLocation exitLocation = (BasicLocation) locations.stream().filter(item -> item.name.equals(exitName)).findFirst().get();
+						bl.getExits().add(new Exit(exitNum, exitLocation));
+					}
+				}	
+			}
+			scanner.close();
+		}
+	}
+
+	private ArrayList<BasicLocation> createLocations(ArrayList<String> locationData) {
+		ArrayList<BasicLocation> locations = new ArrayList<BasicLocation>();
+		for(String location : locationData) {
+			BasicLocation newLocation = new BasicLocation();
+			Scanner scanner = new Scanner(location);
+			if(scanner.nextLine().equals("Name")) {
+				newLocation.setName(scanner.nextLine());
+			}
+			if(scanner.nextLine().equals("Description")) {
+				newLocation.setDescription(scanner.nextLine());
+			}
+			if(scanner.nextLine().equals("NPC")) {
+				int npcCount = Integer.parseInt(scanner.nextLine());
+				for(int i = 0; i < npcCount; i++) {
+					String[] npcData = scanner.nextLine().split(",");
+					newLocation.setNPC(new Enemy(npcData[0],
+						Integer.parseInt(npcData[1]),
+						Integer.parseInt(npcData[2]),
+						Integer.parseInt(npcData[3]))
+					);
+					if(scanner.next().equals("Inventory")) {
+						scanner.nextLine();
+						int inventoryCount = Integer.parseInt(scanner.nextLine());
+						for(int j = 0; j < inventoryCount; j++) {
+							String[] inventoryData = scanner.nextLine().split(",");
+							switch(inventoryData[0]) {
+								case "Potion": 
+									newLocation.getNPC().getInventory().addItem(
+										new Potion(inventoryData[1],
+											inventoryData[2],
+											Integer.parseInt(inventoryData[3]))
+									);
+									break;
+							}
+						}
+					}
+				}
+			}
+			scanner.close();
+			locations.add(newLocation);
+		}
+		return locations;
+	}
 }

@@ -1,0 +1,7 @@
+awakening
+northField
+southForest
+eastField
+westForest
+monolith
+monolith-top

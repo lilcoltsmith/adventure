@@ -15,6 +15,15 @@ public abstract class Location {
 	public NPC npc;
 	public List<Exit> exits;
 	public List<Item> items;
+
+	public Location() {
+		this.name = "???";
+		this.description = new String();
+		this.items = new ArrayList<Item>();
+		this.actionDescriptions = new ArrayList<String>();
+		this.actions = new ArrayList<ActionListener>();
+		this.exits = new ArrayList<Exit>();
+	}
 	
 	public Location(String name) {
 		this.name = name;
