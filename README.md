@@ -28,7 +28,6 @@ mvn clean install
 ## Authors
 
 * **Colton Smith** - *Lead Software Engineer/Creator* - [lilcoltsmith](https://github.com/lilcoltsmith)
-* **Claude Rogers III** - *Software Engineer* - [ClaudeRogers](https://github.com/ClaudeRogers)
 
 ## License
 
