@@ -550,7 +550,7 @@ public class Game {
 		return bar;
 	}
 	
-	public JLabel createLabel(String text, Color background, Color foreground, Font font) {
+	public static JLabel createLabel(String text, Color background, Color foreground, Font font) {
 		JLabel label = new JLabel(text);
 		label.setBackground(background);
 		label.setForeground(foreground);
