@@ -36,7 +36,7 @@ public class Adventure {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				MapBuilder.window = Game.createWindow(800, 600);
+				MapBuilder.window = Game.createWindow(1280, 720);
 				new MapBuilder();
 			}
 		});

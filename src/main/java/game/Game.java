@@ -95,6 +95,7 @@ public class Game {
 	public static Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
 	public static Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
 	public static Font smallFont = new Font("Times New Roman", Font.PLAIN, 20);
+	public static Font xSmallFont = new Font("Time New Roman", Font.PLAIN, 12);
 	// icons
 	public static BufferedImage playerIconImage;
 	public static ImageIcon playerIcon;
@@ -183,7 +184,7 @@ public class Game {
 	public static void createMainText() {
 		mainTextPanel = createPanel(MAIN_TEXT_X, MAIN_TEXT_Y, MAIN_TEXT_WIDTH, MAIN_TEXT_HEIGHT, Color.black);
 		mainTextArea = createTextArea(MAIN_TEXT_X, MAIN_TEXT_Y, MAIN_TEXT_WIDTH, MAIN_TEXT_HEIGHT, 
-				player.getLocation().getDescription(), Color.black, Color.white, normalFont);
+				player.getLocation().getDescription(), Color.black, Color.white, normalFont, false);
 		scroll = new JScrollPane(mainTextArea);
 		scroll.setPreferredSize(MAIN_TEXT_SCROLL_SIZE);
 		scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -580,14 +581,14 @@ public class Game {
 		return button;
 	}
 	
-	public static JTextArea createTextArea(int x, int y, int width, int height, String text, Color background, Color foreground, Font font) {
+	public static JTextArea createTextArea(int x, int y, int width, int height, String text, Color background, Color foreground, Font font, Boolean editable) {
 		JTextArea textArea = new JTextArea(text);
 		textArea.setBounds(x, y, width, height);
 		textArea.setBackground(background);
 		textArea.setForeground(foreground);
 		textArea.setFont(font);
 		textArea.setLineWrap(true);
-		textArea.setEditable(false);
+		textArea.setEditable(editable);
 		return textArea;
 	}
 	
