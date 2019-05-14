@@ -1,6 +1,5 @@
 package util;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -49,12 +48,14 @@ public class MapBuilder {
 
     public static void createFormPane() {
         formPanel = Game.createPanel(0, 0, 420, 700, Color.black);
-        formPanel.setLayout(new BorderLayout());
-        formScrollPanelViewport = Game.createPanel(0, 0, 420, 720, Color.black);
+        formPanel.setLayout(null);
+        formScrollPanelViewport = Game.createPanel(0, 0, 420, 700, Color.black);
         formScrollPanelViewport.setLayout(null);
-        formScrollPanel = new JScrollPane(formScrollPanelViewport, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        formScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+        formScrollPanel = createScrollPane(0, 0, 419, 699, 
+            formScrollPanelViewport, 
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+            BorderFactory.createEmptyBorder());
         formPanel.add(formScrollPanel);
 
         createNamePanel();
@@ -71,13 +72,14 @@ public class MapBuilder {
     }
 
     public static void createNamePanel() {
-        namePanel = Game.createPanel(0, 0, 400, 50, Color.black);
+        namePanel = Game.createPanel(0, 0, 420, 50, Color.black);
         namePanel.setLayout(null);
-        nameLabelPanel = Game.createPanel(10, 0, 380, 25, Color.black);
-        nameFieldPanel = Game.createPanel(10, 25, 380, 25, Color.black);
+        nameLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+        nameFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
+        nameFieldPanel.setLayout(null);
         nameLabel = Game.createLabel("Name", Color.white, Game.smallFont);
         nameLabelPanel.add(nameLabel);
-        nameField = createTextField(0, 0, 380, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
+        nameField = createTextField(0, 0, 400, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         nameFieldPanel.add(nameField);
         namePanel.add(nameLabelPanel);
@@ -85,19 +87,19 @@ public class MapBuilder {
     }
 
     public static void createDescriptionPanel() {
-        descriptionPanel = Game.createPanel(0, 50, 400, 100, Color.black);
+        descriptionPanel = Game.createPanel(0, 50, 420, 100, Color.black);
         descriptionPanel.setLayout(null);
-        descriptionLabelPanel = Game.createPanel(10, 0, 380, 25, Color.black);
-        descriptionFieldPanel = Game.createPanel(10, 30, 380, 70, Color.black);
-        descriptionFieldPanel.setLayout(new BorderLayout());
+        descriptionLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+        descriptionFieldPanel = Game.createPanel(10, 30, 410, 70, Color.black);
+        descriptionFieldPanel.setLayout(null);
         descriptionLabel = Game.createLabel("Description", Color.white, Game.smallFont);
         descriptionLabelPanel.add(descriptionLabel);
-        descriptionText = Game.createTextArea(0, 0, 0, 0, "", Color.black, Color.white, Game.xSmallFont, true);
+        descriptionText = Game.createTextArea(0, 0, 400, 70, "", Color.black, Color.white, Game.xSmallFont, true);
         descriptionText.setCaretColor(Color.white);
         descriptionText.setSelectedTextColor(Color.white);
         descriptionText.setSelectionColor(new Color(100,0,0));
-        descriptionScrollPane = createScrollPane(0, 0, 0, 0, descriptionText,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+        descriptionScrollPane = createScrollPane(0, 0, 400, 70, descriptionText,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER, 
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         descriptionFieldPanel.add(descriptionScrollPane);
@@ -106,13 +108,14 @@ public class MapBuilder {
     }
 
     public static void createNpcPanel() {
-        npcPanel = Game.createPanel(0, 150, 400, 100, Color.black);
+        npcPanel = Game.createPanel(0, 150, 420, 100, Color.black);
         npcPanel.setLayout(null);
-        npcLabelPanel = Game.createPanel(10, 0, 380, 25, Color.black);
-        npcFieldPanel = Game.createPanel(10, 25, 380, 25, Color.black);
+        npcLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+        npcFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
+        npcFieldPanel.setLayout(null);
         npcLabel = Game.createLabel("NPC", Color.white, Game.smallFont);
         npcLabelPanel.add(npcLabel);
-        npcField = createTextField(0, 0, 380, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
+        npcField = createTextField(0, 0, 400, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         npcFieldPanel.add(npcField);
         npcPanel.add(npcLabelPanel);
@@ -122,11 +125,12 @@ public class MapBuilder {
     }
 
     public static void createInventoryPanels() {
-        inventoryLabelPanel = Game.createPanel(10, 50, 380, 25, Color.black);
-        inventoryFieldPanel = Game.createPanel(10, 75, 380, 25, Color.black);
+        inventoryLabelPanel = Game.createPanel(10, 50, 410, 25, Color.black);
+        inventoryFieldPanel = Game.createPanel(10, 80, 410, 20, Color.black);
+        inventoryFieldPanel.setLayout(null);
         inventoryLabel = Game.createLabel("Inventory", Color.white, Game.smallFont);
         inventoryLabelPanel.add(inventoryLabel);
-        inventoryField = createTextField(0, 0, 380, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
+        inventoryField = createTextField(0, 0, 400, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         inventoryFieldPanel.add(inventoryField);
         npcPanel.add(inventoryLabelPanel);
@@ -134,13 +138,14 @@ public class MapBuilder {
     }
 
     public static void createExitPanel() {
-        exitPanel = Game.createPanel(0, 250, 400, 50, Color.black);
+        exitPanel = Game.createPanel(0, 250, 420, 50, Color.black);
         exitPanel.setLayout(null);
-        exitLabelPanel = Game.createPanel(10, 0, 380, 25, Color.black);
-        exitFieldPanel = Game.createPanel(10, 25, 380, 25, Color.black);
+        exitLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+        exitFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
+        exitFieldPanel.setLayout(null);
         exitLabel = Game.createLabel("Exit", Color.white, Game.smallFont);
         exitLabelPanel.add(exitLabel);
-        exitField = createTextField(0, 0, 380, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
+        exitField = createTextField(0, 0, 400, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         exitFieldPanel.add(exitField);
         exitPanel.add(exitLabelPanel);
@@ -149,13 +154,15 @@ public class MapBuilder {
 
     public static void createMapPane() {
         // Scroll Pane
-        mapPanel = Game.createPanel(0, 0, 420, 700, Color.black);
-        mapPanel.setLayout(new BorderLayout());
-        mapScrollPanelViewport = Game.createPanel(0, 0, 420, 720, Color.black);
-        mapScrollPanel = new JScrollPane(mapScrollPanelViewport,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        mapScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+        mapPanel = Game.createPanel(420, 0, 860, 700, Color.black);
+        mapPanel.setLayout(null);
+        mapScrollPanelViewport = Game.createPanel(0, 0, 420, 700, Color.black);
+        mapScrollPanel = createScrollPane(0, 0, 860, 699, mapScrollPanelViewport,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+            BorderFactory.createLineBorder(Color.DARK_GRAY));
+        mapPanel.add(mapScrollPanel);
+        container.add(mapPanel);
     }
 
     public static JTextField createTextField(int x, int y, int width, int height, String text, Color background, Color foreground, Color selectedTextColor, Color highlight, Font font, Border border) {
