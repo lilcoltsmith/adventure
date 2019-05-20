@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -156,12 +159,63 @@ public class MapBuilder {
         // Scroll Pane
         mapPanel = Game.createPanel(420, 0, 860, 700, Color.black);
         mapPanel.setLayout(null);
-        mapScrollPanelViewport = Game.createPanel(0, 0, 420, 700, Color.black);
+        mapScrollPanelViewport = Game.createPanel(0, 0, 420, 700, Color.black); //420, 700, 860, 699
         mapScrollPanel = createScrollPane(0, 0, 860, 699, mapScrollPanelViewport,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED,
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         mapPanel.add(mapScrollPanel);
+
+        JButton test = Game.createButton("TEST", new ActionListener(){
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dimension viewLocation = new Dimension(
+                    mapScrollPanel.getHorizontalScrollBar().getValue(),
+                    mapScrollPanel.getVerticalScrollBar().getValue()
+                );
+                Dimension oldSize = mapScrollPanelViewport.getSize();
+                Dimension newSize = new Dimension(1500, 820);
+                viewLocation.width = (Math.abs(newSize.width - oldSize.width))/2 + viewLocation.width;
+                mapScrollPanelViewport.setPreferredSize(newSize);
+                mapScrollPanelViewport.revalidate();
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() { 
+                        mapScrollPanel.getHorizontalScrollBar().setValue(viewLocation.width);
+                        mapScrollPanel.getVerticalScrollBar().setValue(0);
+                        System.out.println(mapScrollPanel.getHorizontalScrollBar().getValue());
+                    }
+                 });
+            }
+        });
+
+        JButton test2 = Game.createButton("TEST2", new ActionListener(){
+        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dimension viewLocation = new Dimension(
+                    mapScrollPanel.getHorizontalScrollBar().getValue(),
+                    mapScrollPanel.getVerticalScrollBar().getValue()
+                );
+                Dimension oldSize = mapScrollPanelViewport.getSize();
+                Dimension newSize = new Dimension(1280, 720);
+                if (oldSize.width != newSize.width && oldSize.height != newSize.height)
+                    viewLocation.width = (Math.abs(newSize.width - oldSize.width))/2 + viewLocation.width;
+                mapScrollPanelViewport.setPreferredSize(newSize);
+                mapScrollPanelViewport.revalidate();
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() { 
+                        mapScrollPanel.getHorizontalScrollBar().setValue(viewLocation.width);
+                        mapScrollPanel.getVerticalScrollBar().setValue(0);
+                        System.out.println(mapScrollPanel.getHorizontalScrollBar().getValue());
+                    }
+                 });
+            }
+        });
+
+        mapScrollPanelViewport.add(test);
+        mapScrollPanelViewport.add(test2);
+
         container.add(mapPanel);
     }
 
