@@ -1,20 +1,25 @@
 package util;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -29,6 +34,7 @@ import game.Game;
 public class MapBuilder {
 
     public static final int FORM_PANEL_WIDTH = 420;
+    public static Integer npcCount;
 
     public static JFrame window;
     public static Container container;
@@ -37,12 +43,14 @@ public class MapBuilder {
     public static JPanel formPanel, mapPanel, formScrollPanelViewport, mapScrollPanelViewport;
     public static JPanel namePanel, nameLabelPanel, nameFieldPanel;
     public static JPanel descriptionPanel, descriptionLabelPanel, descriptionFieldPanel;
+    public static JPanel npcCountPanel, npcCountLabelPanel, npcCountFieldPanel;
     public static JPanel npcPanel, npcLabelPanel, npcFieldPanel;
     public static JPanel inventoryPanel, inventoryLabelPanel, inventoryFieldPanel;
     public static JPanel exitPanel, exitLabelPanel, exitFieldPanel;
-    public static JLabel nameLabel, descriptionLabel, npcLabel, inventoryLabel, exitLabel;
+    public static JLabel nameLabel, descriptionLabel, npcCountLabel, npcLabel, inventoryLabel, exitLabel;
     public static JTextField nameField, npcField, inventoryField, exitField;
     public static JTextArea descriptionText;
+    public static JComboBox npcCountField;
     public static JPanel actionPanel, createButtonPanel;
     public static JButton createButton;
 
@@ -60,16 +68,12 @@ public class MapBuilder {
         formPanelList = new ArrayList<JPanel>();
         formFieldList = new ArrayList<JTextComponent>();
         formPanelHeight = 0;
+        npcCount = 1;
 
         createFormPane();
         createMapPane();
 
-        // Default fields
-        createNamePanel();
-        createDescriptionPanel();
-        createNpcPanel();
-        createExitPanel();
-        createCreateButtonPanel();
+        createDefaultFields();
     }
 
     public static void createFormPane() {
@@ -87,15 +91,37 @@ public class MapBuilder {
         container.add(formPanel);
     }
 
+    public static void createDefaultFields() {
+        createNamePanel();
+        createDescriptionPanel();
+        createNpcCountPanel();
+        createNpcPanel();
+        createInventoryPanel();
+        createExitPanel();
+        createCreateButtonPanel();
+    }
+
+    public static void clearForm() {
+        if(formScrollPanelViewport.getComponentCount() > 0) {
+            formScrollPanelViewport.removeAll();
+            formScrollPanelViewport.revalidate();
+            formScrollPanelViewport.repaint();
+        }
+        formPanelHeight = 0;
+        formPanelList = new ArrayList<JPanel>();
+        formFieldList = new ArrayList<JTextComponent>();
+    }
+
     public static void addToFormPanelList(JPanel panel) {
         formPanelList.add(panel);
         updateFormScrollPanelViewport();
     }
 
     public static void updateFormScrollPanelViewport() {
-        if( formScrollPanelViewport.getComponentCount() > 0) {
+        if(formScrollPanelViewport.getComponentCount() > 0) {
             formScrollPanelViewport.removeAll();
             formScrollPanelViewport.revalidate();
+            formScrollPanelViewport.repaint();
         }
 
         formPanelHeight = 0;
@@ -151,30 +177,60 @@ public class MapBuilder {
         formFieldList.add(descriptionText);
     }
 
-    public static void createNpcPanel() {
-        npcPanel = Game.createPanel(0, formPanelHeight, FORM_PANEL_WIDTH, 100, Color.black);
-        npcPanel.setLayout(null);
-        npcPanel.setName("NPC");
-        npcLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
-        npcFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
-        npcFieldPanel.setLayout(null);
-        npcLabel = Game.createLabel("NPC", Color.white, Game.smallFont);
-        npcLabelPanel.add(npcLabel);
-        npcField = createTextField(0, 0, 400, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
+    public static void createNpcCountPanel() {
+        npcCountPanel = Game.createPanel(0, formPanelHeight, FORM_PANEL_WIDTH, 50, Color.black);
+        npcCountPanel.setLayout(null);
+        npcCountPanel.setName("NPC Count");
+        npcCountLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+        npcCountFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
+        npcCountFieldPanel.setLayout(null);
+        npcCountLabel = Game.createLabel("Number of NPCs", Color.white, Game.smallFont);
+        npcCountLabelPanel.add(npcCountLabel);
+        npcCountField = createIntDropdown(0, 0, 400, 20, 0, 5, Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
             BorderFactory.createLineBorder(Color.DARK_GRAY));
-        npcField.setName("NPC");
-        npcFieldPanel.add(npcField);
-        npcPanel.add(npcLabelPanel);
-        npcPanel.add(npcFieldPanel);
-        addToFormPanelList(npcPanel);
-        formFieldList.add(npcField);
-        
-        createInventoryPanel();
+        npcCountField.setName("NPC Count");
+        npcCountField.setSelectedItem(npcCount);
+        npcCountField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                npcCount = (Integer) npcCountField.getSelectedItem();
+                clearForm();
+                createDefaultFields();
+            }
+        });
+        npcCountFieldPanel.add(npcCountField);
+        npcCountPanel.add(npcCountLabelPanel);
+        npcCountPanel.add(npcCountFieldPanel);
+        addToFormPanelList(npcCountPanel);
+    }
+
+    public static void createNpcPanel() {
+        for(int i = 0; i < npcCount; i++) {
+            npcPanel = Game.createPanel(0, formPanelHeight, FORM_PANEL_WIDTH, 50, Color.black);
+            npcPanel.setLayout(null);
+            npcPanel.setName("NPC-"+i);
+            npcLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+            npcFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
+            npcFieldPanel.setLayout(null);
+            npcLabel = Game.createLabel("NPC-"+i, Color.white, Game.smallFont);
+            npcLabelPanel.add(npcLabel);
+            npcField = createTextField(0, 0, 400, 20, "", Color.black, Color.white, Color.white, new Color(100,0,0), Game.xSmallFont,
+                BorderFactory.createLineBorder(Color.DARK_GRAY));
+            npcField.setName("NPC-"+i);
+            npcFieldPanel.add(npcField);
+            npcPanel.add(npcLabelPanel);
+            npcPanel.add(npcFieldPanel);
+            addToFormPanelList(npcPanel);
+            formFieldList.add(npcField);
+        }
     }
 
     public static void createInventoryPanel() {
-        inventoryLabelPanel = Game.createPanel(10, 50, 410, 25, Color.black);
-        inventoryFieldPanel = Game.createPanel(10, 80, 410, 20, Color.black);
+        inventoryPanel = Game.createPanel(0, formPanelHeight, FORM_PANEL_WIDTH, 50, Color.black);
+        inventoryPanel.setLayout(null);
+        inventoryPanel.setName("Inventory");
+        inventoryLabelPanel = Game.createPanel(10, 0, 410, 25, Color.black);
+        inventoryFieldPanel = Game.createPanel(10, 30, 410, 20, Color.black);
         inventoryFieldPanel.setLayout(null);
         inventoryLabel = Game.createLabel("Inventory", Color.white, Game.smallFont);
         inventoryLabelPanel.add(inventoryLabel);
@@ -182,8 +238,11 @@ public class MapBuilder {
             BorderFactory.createLineBorder(Color.DARK_GRAY));
         inventoryField.setName("Inventory");
         inventoryFieldPanel.add(inventoryField);
-        npcPanel.add(inventoryLabelPanel);
-        npcPanel.add(inventoryFieldPanel);
+        inventoryPanel.add(inventoryLabelPanel);
+        inventoryPanel.add(inventoryFieldPanel);
+        addToFormPanelList(inventoryPanel);
+        formFieldList.add(inventoryField);
+
     }
 
     public static void createExitPanel() {
@@ -307,6 +366,39 @@ public class MapBuilder {
         textField.setFont(font);
         textField.setBorder(border);
 		return textField;
+    }
+
+    public static JComboBox<Integer> createIntDropdown(int x, int y, int width, int height, int minValue, int maxValue, Color background, Color foreground, Color selectedTextColor, Color highlight, Font font, Border border) {
+        JComboBox<Integer> dropdown = new JComboBox<Integer>();
+        dropdown.setPreferredSize(new Dimension(width, height));
+        dropdown.setBounds(x, y, width, height);
+        dropdown.setBackground(background);
+        dropdown.setForeground(foreground);
+        dropdown.setFont(font);
+        dropdown.setBorder(border);
+
+        dropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value,
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+                if (c instanceof JLabel) {
+                    JLabel l = (JLabel) c;
+                    if (isSelected) {
+                        list.setSelectionForeground(selectedTextColor);
+                        list.setSelectionBackground(highlight);
+                    }
+                    return l;
+                }
+                return c;
+            }
+        });
+
+        for(int i = minValue; i <= maxValue; i++) {
+            dropdown.addItem(i);
+        }
+        return dropdown;
     }
     
     public static JScrollPane createScrollPane(int x, int y, int width, int height, JComponent component, int vsb, int hsb, Border border) {
