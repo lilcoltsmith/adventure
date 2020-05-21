@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 import components.Player;
 import components.Exit;
@@ -231,8 +233,8 @@ public class Game {
 		choice0.setText("Navigate"); choice0.addActionListener(handler.navHandler);
 		choice1.setText("Actions"); choice1.addActionListener(handler.actionHandler);
 		choice2.setText("Inventory"); choice2.addActionListener(handler.inventoryHandler);
-		if(player.getLocation().getNPC() != null) {
-			choice3.setText(player.getLocation().getNPC().getName()); choice3.addActionListener(handler.npcHandler);
+		if(null != player.getLocation().getNPCs() && player.getLocation().getNPCs().size() > 0) {
+			choice3.setText(player.getLocation().getNPC(0).getName()); choice3.addActionListener(handler.npcHandler);
 		}
 		else {
 			choice3.setText("--");
@@ -304,8 +306,8 @@ public class Game {
 	}
 	
 	public static void createActions(int page, String type, int itemIndex) {
-		List<String> actionDescriptions;
-		List<ActionListener> actions;
+		List<String> actionDescriptions = new ArrayList<String>();
+		List<ActionListener> actions = new ArrayList<ActionListener>();
 		if(type.equals("general")) {
 			actionDescriptions = player.getLocation().getActionDescriptions();
 			actions = player.getLocation().getActions();
@@ -316,8 +318,10 @@ public class Game {
 			actions = items.get(itemIndex).getActions();
 		}
 		else {
-			actionDescriptions = player.getLocation().getNPC().getActionDescriptions();
-			actions = player.getLocation().getNPC().getActions();
+			if(null != player.getLocation().getNPCs() && player.getLocation().getNPCs().size() > 0) {
+				actionDescriptions = player.getLocation().getNPC(0).getActionDescriptions();
+				actions = player.getLocation().getNPC(0).getActions();
+			}
 		}
 		int one = 0+(4*page), two = 1+(4*page), three = 2+(4*page), four = 3+(4*page);
 		if(one <= actions.size() && one >= 0) {
@@ -448,6 +452,7 @@ public class Game {
 		for(int i = 0; i < exits.size(); i++) {
 			if(exits.get(i).getDirectionName().equals(direction)) {
 				player.setLocation(player.getLocation().getExits().get(i).getLeadsTo());
+				System.out.println(player.getLocation().getParent());
 				locationLabelName.setText(player.getLocationName());
 				mainTextArea.setText(player.getLocation().getDescription());
 				createInitialChoices();
@@ -461,7 +466,7 @@ public class Game {
 		npcDefence = npcDefence > playerDamage ? playerDamage : npcDefence;
 		playerDamage = npcDefence == playerDamage ? 0 : playerDamage - npcDefence;
 		if(npc.health <= playerDamage) {
-			kill(npc);
+			npc.kill();
 		}
 		else {
 			npc.health -= playerDamage;
@@ -484,16 +489,16 @@ public class Game {
 		}
 	}
 	
-	public static void kill(NPC npc) {
-		String message = "";
-		for(Item i : npc.inventory.getInventory()) {
-			message += i.name + "\n";
-		}
-		mainTextArea.setText("You killed the " + npc.name + "! It dropped: \n" + message);
-		player.getLocation().addItems(npc.inventory.getInventory());
-		player.getLocation().removeNPC(npc);
-		createInitialChoices();
-	}
+	// public static void kill(NPC npc) {
+	// 	String message = "";
+	// 	for(Item i : npc.inventory.getInventory()) {
+	// 		message += i.name + "\n";
+	// 	}
+	// 	mainTextArea.setText("You killed the " + npc.name + "! It dropped: \n" + message);
+	// 	player.getLocation().addItems(npc.inventory.getInventory());
+	// 	player.getLocation().removeNPC(npc);
+	// 	createInitialChoices();
+	// }
 	
 	public static void playerDead() {
 		removeSubChoiceActionListeners();
@@ -559,6 +564,12 @@ public class Game {
 		return label;
 	}
 	
+	/**
+	 * This is intended to be used inside of a JPanel. The wrapping JPanel and it's Layout will determine the size of the button.
+	 * @param text the text displayed inside the button; usually corresponds to the action of the button.
+	 * @param action an ActionListener activated when clicking the button.
+	 * @return a JButton object.
+	 */
 	public static JButton createButton(String text, ActionListener action) {
 		JButton button = new JButton(text);
 		button.setActionCommand(text);
@@ -572,6 +583,18 @@ public class Game {
 	
 	public static JButton createIconButton(ImageIcon icon, ActionListener action) {
 		JButton button = new JButton(icon);
+		button.setBackground(Color.black);
+		button.setForeground(Color.white);
+		button.setFont(normalFont);
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
+		button.addActionListener(action);
+		return button;
+	}
+
+	public static JButton createIconButton(ImageIcon icon, int x, int y, int width, int height, ActionListener action) {
+		JButton button = new JButton(icon);
+		button.setBounds(x, y, width, height);
 		button.setBackground(Color.black);
 		button.setForeground(Color.white);
 		button.setFont(normalFont);
@@ -609,8 +632,8 @@ public class Game {
 	public static BufferedImage resize(BufferedImage img, int height, int width) {
         Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = resized.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
+		Graphics2D g2d = resized.createGraphics();
+		g2d.drawImage(tmp, 0, 0, null);
         g2d.dispose();
         return resized;
     }

@@ -23,8 +23,14 @@ public abstract class NPC {
 			message += item.name + "\n";
 		}
 		Game.mainTextArea.setText(message);
-		Game.player.getLocation().addItems(this.inventory.getInventory());
-		Game.player.getLocation().removeNPC(this);
+		Location playerLocation = Game.player.getLocation();
+		playerLocation.addItems(this.inventory.getInventory());
+		List<NPC> locationNPCs = playerLocation.getNPCs();
+		for(int i = 0; i < locationNPCs.size(); i++) {
+			if (locationNPCs.get(i).getName().equals(this.name)) {
+				Game.player.getLocation().removeNPC(i);
+			}
+		}
 		Game.createInitialChoices();
 	}
 

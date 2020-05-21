@@ -10,46 +10,66 @@ import game.Game;
 public abstract class Location {
 	public String name;
 	public String description;
+	public String parent;
 	public List<String> actionDescriptions;
 	public List<ActionListener> actions;
-	public NPC npc;
+	public List<NPC> npcs;
 	public List<Exit> exits;
 	public List<Item> items;
 
 	public Location() {
 		this.name = "???";
 		this.description = new String();
+		this.parent = new String("root");
 		this.items = new ArrayList<Item>();
 		this.actionDescriptions = new ArrayList<String>();
 		this.actions = new ArrayList<ActionListener>();
 		this.exits = new ArrayList<Exit>();
+		this.npcs = new ArrayList<NPC>();
 	}
 	
 	public Location(String name) {
 		this.name = name;
 		this.description = new String();
+		this.parent = new String("root");
 		this.items = new ArrayList<Item>();
 		this.actionDescriptions = new ArrayList<String>();
 		this.actions = new ArrayList<ActionListener>();
 		this.exits = new ArrayList<Exit>();
+		this.npcs = new ArrayList<NPC>();
 	}
 	
 	public Location(String name, String description) {
 		this.name = name;
 		this.description = description;
+		this.parent = new String("root");
 		this.items = new ArrayList<Item>();
 		this.actionDescriptions = new ArrayList<String>();
 		this.actions = new ArrayList<ActionListener>();
 		this.exits = new ArrayList<Exit>();
+		this.npcs = new ArrayList<NPC>();
 	}
 	
 	public Location(String name, String description, List<String> actionDescriptions, List<ActionListener> actions) {
 		this.name = name;
 		this.description = description;
+		this.parent = new String("root");
 		this.actionDescriptions = actionDescriptions;
 		this.actions = actions;
 		this.items = new ArrayList<Item>();
 		this.exits = new ArrayList<Exit>();
+		this.npcs = new ArrayList<NPC>();
+	}
+
+	public Location(String name, String description, String parent, List<String> actionDescriptions, List<ActionListener> actions) {
+		this.name = name;
+		this.description = description;
+		this.parent = parent;
+		this.actionDescriptions = actionDescriptions;
+		this.actions = actions;
+		this.items = new ArrayList<Item>();
+		this.exits = new ArrayList<Exit>();
+		this.npcs = new ArrayList<NPC>();
 	}
 
 	public String getName() {
@@ -66,6 +86,14 @@ public abstract class Location {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getParent() {
+		return parent;
+	}
+
+	public void setParent(String parent) {
+		this.parent = parent;
 	}
 	
 	public List<String> getActionDescriptions() {
@@ -92,16 +120,28 @@ public abstract class Location {
 		this.actions.remove(index);
 	}
 	
-	public NPC getNPC() {
-		return npc;
+	public NPC getNPC(int index) {
+		return this.npcs.get(index);
 	}
 	
-	public void setNPC(NPC npc) {
-		this.npc = npc;
+	public void setNPC(NPC npc, int index) {
+		this.npcs.set(index, npc);
+	}
+
+	public void addNPC(NPC npc) {
+		this.npcs.add(npc);
 	}
 	
-	public void removeNPC(NPC npc) {
-		this.npc = null;
+	public void removeNPC(int index) {
+		this.npcs.remove(index);
+	}
+
+	public List<NPC> getNPCs() {
+		return this.npcs;
+	}
+
+	public void setNPCs(List<NPC> npcs) {
+		this.npcs = npcs;
 	}
 
 	public List<Exit> getExits() {

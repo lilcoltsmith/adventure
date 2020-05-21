@@ -46,6 +46,9 @@ public class GameMap {
 						int exitNum = Integer.parseInt(scanner.nextLine());
 						String exitName = scanner.nextLine();
 						BasicLocation exitLocation = (BasicLocation) locations.stream().filter(item -> item.name.equals(exitName)).findFirst().get();
+						if(exitNum == Exit.OUT) {
+							bl.setParent(exitName);
+						}
 						bl.getExits().add(new Exit(exitNum, exitLocation));
 					}
 				}	
@@ -69,7 +72,7 @@ public class GameMap {
 				int npcCount = Integer.parseInt(scanner.nextLine());
 				for(int i = 0; i < npcCount; i++) {
 					String[] npcData = scanner.nextLine().split(",");
-					newLocation.setNPC(new Enemy(npcData[0],
+					newLocation.addNPC(new Enemy(npcData[0],
 						Integer.parseInt(npcData[1]),
 						Integer.parseInt(npcData[2]),
 						Integer.parseInt(npcData[3]))
@@ -81,7 +84,7 @@ public class GameMap {
 							String[] inventoryData = scanner.nextLine().split(",");
 							switch(inventoryData[0]) {
 								case "Potion": 
-									newLocation.getNPC().getInventory().addItem(
+									newLocation.getNPC(0).getInventory().addItem(
 										new Potion(inventoryData[1],
 											inventoryData[2],
 											Integer.parseInt(inventoryData[3]))

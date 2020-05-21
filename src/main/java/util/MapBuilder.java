@@ -5,15 +5,20 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -27,6 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.text.JTextComponent;
 
 import game.Game;
@@ -40,8 +46,10 @@ public class MapBuilder {
     public static JFrame window;
     public static Container container;
     public static int formPanelHeight;
-    public static JScrollPane formScrollPanel, mapScrollPanel, descriptionScrollPane;
-    public static JPanel formPanel, mapPanel, formScrollPanelViewport, mapScrollPanelViewport;
+
+    // Form Components
+    public static JScrollPane formScrollPanel, descriptionScrollPane;
+    public static JPanel formPanel, formScrollPanelViewport;
     public static JPanel namePanel, nameLabelPanel, nameFieldPanel;
     public static JPanel descriptionPanel, descriptionLabelPanel, descriptionFieldPanel;
     public static JPanel npcCountPanel, npcCountLabelPanel, npcCountFieldPanel;
@@ -55,6 +63,15 @@ public class MapBuilder {
     public static JPanel actionPanel, createButtonPanel;
     public static JButton createButton;
 
+    // Map Components
+    public static JScrollPane mapScrollPanel;
+    public static JPanel mapPanel, mapScrollPanelViewport;
+    public static JPanel lefthandNavPanel, northPanel, southPanel, eastPanel, westPanel;
+    public static JPanel righthandNavPanel, upPanel, downPanel, inPanel, outPanel;
+    public static JButton northButton, southButton, eastButton, westButton, upButton, downButton, inButton, outButton;
+    public static BufferedImage northImage, southImage, eastImage, westImage;
+    public static ImageIcon northIcon, southIcon, eastIcon, westIcon;
+
     public static List<JPanel> formPanelList;
     public static List<JTextComponent> formFieldList;
 
@@ -64,6 +81,8 @@ public class MapBuilder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        loadImages();
 
         container = window.getContentPane();
         formPanelList = new ArrayList<JPanel>();
@@ -77,6 +96,26 @@ public class MapBuilder {
 
         createDefaultFields();
     }
+
+    public static void loadImages() {
+		try {
+			northImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("up-arrow-50-white.png"));
+			northImage = Game.resize(northImage, 50, 50);
+			southImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("down-arrow-50-white.png"));
+			southImage = Game.resize(southImage, 50, 50);
+			eastImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("right-arrow-50-white.png"));
+			eastImage = Game.resize(eastImage, 50, 50);
+			westImage = ImageIO.read(Game.class.getClassLoader().getResourceAsStream("left-arrow-50-white.png"));
+			westImage = Game.resize(westImage, 50, 50);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		northIcon = new ImageIcon(northImage);
+		southIcon = new ImageIcon(southImage);
+		eastIcon = new ImageIcon(eastImage);
+		westIcon = new ImageIcon(westImage);
+	}
 
     public static void createFormPane() {
         formPanel = Game.createPanel(0, 0, FORM_PANEL_WIDTH, 700, Color.black);
@@ -321,56 +360,39 @@ public class MapBuilder {
         mapPanel = Game.createPanel(FORM_PANEL_WIDTH, 0, 860, 700, Color.black);
         mapPanel.setLayout(null);
         mapScrollPanelViewport = Game.createPanel(0, 0, 420, 700, Color.black); // 420, 700, 860, 699
+        mapScrollPanelViewport.setLayout(null);
         mapScrollPanel = createScrollPane(0, 0, 860, 699, mapScrollPanelViewport,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED,
                 BorderFactory.createLineBorder(Color.DARK_GRAY));
         mapPanel.add(mapScrollPanel);
 
-        JButton test = Game.createButton("TEST", new ActionListener() {
+        // Panel is defined above if needed.
+        northButton = Game.createIconButton(northIcon, 50, 550, 50, 50, null);
+        northButton.setBorderPainted(true);
+        southButton = Game.createIconButton(southIcon, 50, 650, 50, 50, null);
+        southButton.setBorderPainted(true);
+        eastButton = Game.createIconButton(eastIcon, 100, 600, 50, 50, null);
+        eastButton.setBorderPainted(true);
+        westButton = Game.createIconButton(westIcon, 0, 600, 50, 50, null);
+        westButton.setBorderPainted(true);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Dimension viewLocation = new Dimension(mapScrollPanel.getHorizontalScrollBar().getValue(),
-                        mapScrollPanel.getVerticalScrollBar().getValue());
-                Dimension oldSize = mapScrollPanelViewport.getSize();
-                Dimension newSize = new Dimension(1500, 820);
-                viewLocation.width = (Math.abs(newSize.width - oldSize.width)) / 2 + viewLocation.width;
-                mapScrollPanelViewport.setPreferredSize(newSize);
-                mapScrollPanelViewport.revalidate();
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        mapScrollPanel.getHorizontalScrollBar().setValue(viewLocation.width);
-                        mapScrollPanel.getVerticalScrollBar().setValue(0);
-                        System.out.println(mapScrollPanel.getHorizontalScrollBar().getValue());
-                    }
-                });
-            }
-        });
+        // Panel is defined above if needed.
+        righthandNavPanel = Game.createPanel(660, 500, 200, 200, Color.black);
+        righthandNavPanel.setLayout(new GridLayout(4, 1));
+        upButton = Game.createButton("Up", null);
+        downButton = Game.createButton("Down", null);
+        inButton = Game.createButton("In", null);
+        outButton = Game.createButton("Out", null);
 
-        JButton test2 = Game.createButton("TEST2", new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Dimension viewLocation = new Dimension(mapScrollPanel.getHorizontalScrollBar().getValue(),
-                        mapScrollPanel.getVerticalScrollBar().getValue());
-                Dimension oldSize = mapScrollPanelViewport.getSize();
-                Dimension newSize = new Dimension(1280, 720);
-                if (oldSize.width != newSize.width && oldSize.height != newSize.height)
-                    viewLocation.width = (Math.abs(newSize.width - oldSize.width)) / 2 + viewLocation.width;
-                mapScrollPanelViewport.setPreferredSize(newSize);
-                mapScrollPanelViewport.revalidate();
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        mapScrollPanel.getHorizontalScrollBar().setValue(viewLocation.width);
-                        mapScrollPanel.getVerticalScrollBar().setValue(0);
-                        System.out.println(mapScrollPanel.getHorizontalScrollBar().getValue());
-                    }
-                });
-            }
-        });
-
-        mapScrollPanelViewport.add(test);
-        mapScrollPanelViewport.add(test2);
+        mapScrollPanelViewport.add(northButton);
+        mapScrollPanelViewport.add(southButton);
+        mapScrollPanelViewport.add(eastButton);
+        mapScrollPanelViewport.add(westButton);
+        righthandNavPanel.add(upButton);
+        righthandNavPanel.add(downButton);
+        righthandNavPanel.add(inButton);
+        righthandNavPanel.add(outButton);
+        mapScrollPanelViewport.add(righthandNavPanel);
 
         container.add(mapPanel);
     }
