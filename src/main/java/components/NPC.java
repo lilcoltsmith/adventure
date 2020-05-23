@@ -1,6 +1,7 @@
 package components;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import game.Game;
@@ -14,6 +15,14 @@ public abstract class NPC {
 	public Inventory inventory;
 	public List<String> actionDescriptions;
 	public List<ActionListener> actions;
+
+	public NPC(String name, int damage, int defence, int health) {
+		this.name = name;
+		this.damage = damage; this.defence = defence;
+		this.health = health; this.totalHealth = health;
+		this.inventory = new Inventory();
+		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
+	}
 	
 	public void kill() {
 		String message = "";

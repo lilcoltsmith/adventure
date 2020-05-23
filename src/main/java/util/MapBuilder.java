@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,20 +33,28 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.text.JTextComponent;
 
+import components.CartesianPoint;
+import components.Location;
 import game.Game;
+import locations.BasicLocation;
 
 public class MapBuilder {
 
+    // Viewport variables 
+    public static JFrame window;
+    public static Container container;
     public static final int FORM_PANEL_WIDTH = 419;
+    
+    // Form Variables
+    public static int formPanelHeight;
     public static Integer npcCount;
     public static List<Integer> npcItemCount;
 
-    public static JFrame window;
-    public static Container container;
-    public static int formPanelHeight;
+    // Map Variables
+    public static HashMap<CartesianPoint, Location> locationMap;
+    
 
     // Form Components
     public static JScrollPane formScrollPanel, descriptionScrollPane;
@@ -82,14 +91,21 @@ public class MapBuilder {
             e.printStackTrace();
         }
 
+        // load required images for icons
         loadImages();
 
+        // Setup basic container and initialize component lists
         container = window.getContentPane();
         formPanelList = new ArrayList<JPanel>();
         formFieldList = new ArrayList<JTextComponent>();
+
+        // Initialize variables used by form and map
         formPanelHeight = 0;
         npcCount = 1;
         npcItemCount = Arrays.asList(0, 0, 0, 0, 0);
+        locationMap = new HashMap<CartesianPoint, Location>();
+        locationMap.put(new CartesianPoint(), new BasicLocation());
+        System.out.println(locationMap.get(new CartesianPoint(0, 0, 0)).toString());
 
         createFormPane();
         createMapPane();

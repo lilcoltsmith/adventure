@@ -1,6 +1,7 @@
 package components;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Item {
@@ -9,6 +10,22 @@ public abstract class Item {
 	public List<ActionListener> actions;
 	public String type;
 	public String info;
+
+	public Item() {
+		this.name = "???";
+		this.actionDescriptions = new ArrayList<String>();
+		this.actions = new ArrayList<ActionListener>();
+		this.type = "???";
+		this.info = "???";
+	}
+	
+	public Item(String name, String type) {
+		this.name = name;
+		this.actionDescriptions = new ArrayList<String>();
+		this.actions = new ArrayList<ActionListener>();
+		this.type = type;
+		this.info = "???";
+	}
 	
 	public String getName() {
 		return this.name;

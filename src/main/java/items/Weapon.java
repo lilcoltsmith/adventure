@@ -2,7 +2,6 @@ package items;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import components.Item;
 import game.Game;
@@ -11,8 +10,8 @@ public class Weapon extends Item {
 	public int damage;
 	
 	public Weapon(String name, String type, int damage) {
-		this.name = name; this.type = type; this.damage = damage;
-		this.actionDescriptions = new ArrayList<String>(); this.actions = new ArrayList<ActionListener>();
+		super(name, type);
+		this.damage = damage;
 		this.actionDescriptions.add("equip"); this.actions.add(new EquipHandler(this));
 	}
 

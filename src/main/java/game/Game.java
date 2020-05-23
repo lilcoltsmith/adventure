@@ -27,7 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicArrowButton;
 
 import components.Player;
 import components.Exit;
